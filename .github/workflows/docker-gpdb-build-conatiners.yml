@@ -1,0 +1,126 @@
+# --------------------------------------------------------------------
+# GitHub Actions Workflow for Greenplum Build Environments
+# --------------------------------------------------------------------
+
+name: docker-gpdb-build-containers
+
+# Trigger workflow on pushes to main when relevant paths change
+# Also allows manual triggering via GitHub UI
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'images/docker/gpdb/build/jammy/**'
+  workflow_dispatch:  # Manual trigger
+
+# Prevent multiple workflow runs from interfering with each other
+concurrency:
+  group: docker-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    # Set timeout to prevent hanging builds
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    # Matrix strategy to build for both Rocky Linux 8 and 9
+    strategy:
+      matrix:
+        platform: ['jammy']
+
+    steps:
+      # Checkout repository code with full history
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Generate version information for image tags
+      # - BUILD_DATE: Current date in YYYYMMDD format
+      # - SHA_SHORT: Short form of the git commit SHA
+      - name: Set version
+        id: version
+        run: |
+          echo "BUILD_DATE=$(date -u +'%Y%m%d')" >> $GITHUB_OUTPUT
+          echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      # Determine if the current platform's files have changed
+      # This prevents unnecessary builds if only one platform was modified
+      - name: Determine if platform changed
+        id: platform-filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            jammy:
+              - 'images/docker/gpdb/build/jammy/**'
+
+      # Set up QEMU for multi-architecture support
+      # This allows building ARM64 images on AMD64 infrastructure and vice versa
+      - name: Set up QEMU
+        if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
+        uses: docker/setup-qemu-action@v3
+
+      # Login to DockerHub for pushing images
+      # Requires DOCKERHUB_USER and DOCKERHUB_TOKEN secrets to be set
+      - name: Login to Docker Hub
+        if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Setup Docker Buildx for efficient builds
+      # Enable debug mode for better troubleshooting
+      - name: Set up Docker Buildx
+        if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: --debug
+
+      # Build and push multi-architecture images
+      # This creates a manifest list that supports both architectures
+      - name: Build and Push Multi-arch Docker images
+        if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./images/docker/cbdb/build/${{ matrix.platform }}
+          push: true
+          platforms: linux/amd64,linux/arm64
+          # Tag with both latest and version-specific tags
+          tags: |
+            opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest
+            opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
+          # Add standard Open Container Initiative (OCI) labels
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ steps.version.outputs.BUILD_DATE }}
+            org.opencontainers.image.version=${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
+
+      # Generate a detailed build summary in GitHub Actions UI
+      # This provides quick access to build information and image usage instructions
+      - name: Build Summary
+        if: always()
+        run: |
+          echo "### Build Summary for ${{ matrix.platform }} 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### 🔍 Build Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Platform**: ${{ matrix.platform }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Architectures**: amd64, arm64" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit SHA**: [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Date**: ${{ steps.version.outputs.BUILD_DATE }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### 🐳 Docker Images" >> $GITHUB_STEP_SUMMARY
+          echo "- Latest tag: \`opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Version tag: \`opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### 📋 Quick Reference" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Pull the image (automatically selects correct architecture)" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Pull specific architecture if needed" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull --platform linux/amd64 opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull --platform linux/arm64 opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
