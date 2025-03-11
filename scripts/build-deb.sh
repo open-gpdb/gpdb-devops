@@ -26,8 +26,8 @@ EOF1
 chmod +x changelog.sh
 
 export BUILD_USER="Vladimir Rachkin"
-export GPDB_VERSION=$(getversion | cut -d'.' -f 1)
-export GPDB_FULL_VERSION=$(getversion | cut -d'-' -f 1 | cut -d'+' -f 1)
+export GPDB_VERSION=$(./getversion | cut -d'.' -f 1)
+export GPDB_FULL_VERSION=$(./getversion | cut -d'-' -f 1 | cut -d'+' -f 1)
 export GPDB_PKG_VERSION=${GPDB_FULL_VERSION}-${BUILD_NUMBER}-yandex.$(git rev-list HEAD --count).$(git rev-parse --short HEAD)
 echo "##teamcity[buildNumber '%build.counter%: ${GPDB_PKG_VERSION}']"
 

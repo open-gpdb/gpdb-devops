@@ -3,10 +3,44 @@
 #
 # Script: configure-gpdb.sh
 # Description: Configures Greenplum build environment and runs
-#             ./configure with optimized settings. Performs the
-#             following:
-#             1. Prepares /usr/local/cloudberry-db directory
-#             2. Sets up library dependencies
-#             3. Configures build with required features enabled
+#             ./configure with optimized settings.
 #
 # --------------------------------------------------------------------
+
+set -euo pipefail
+
+# Source common utilities
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${SCRIPT_DIR}/gpdb-utils.sh"
+
+# Define log directory and files
+export LOG_DIR="${SRC_DIR}/build-logs"
+CONFIGURE_LOG="${LOG_DIR}/configure.log"
+
+# Configure build
+log_section "Configure"
+execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
+		--with-extra-version="-oss" \
+        --with-libs=${DEBIAN_DESTINATION}/lib \
+        --with-includes=${DEBIAN_DESTINATION}/include \
+        --prefix=${DEBIAN_DESTINATION} \
+        --with-ldap \
+        --enable-gpperfmon \
+	    --with-pam \
+        --with-openssl \
+        --disable-pxf \
+        --enable-ic-proxy \
+        --with-system-tzdata=/usr/share/zoneinfo \
+        --enable-orafce \
+		--without-mdblocales \
+        --with-zstd
+
+log_section_end "Configure"
+
+log_section "Version Information"
+execute_cmd ag "GP_VERSION | GP_VERSION_NUM | PG_VERSION | PG_VERSION_NUM | PG_VERSION_STR" src/include/pg_config.h
+log_section_end "Version Information"
+
+# Log completion
+log_completion "Greenplum Configure Script" "${CONFIGURE_LOG}"
+exit 0
