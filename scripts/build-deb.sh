@@ -7,7 +7,12 @@
 # version and release number.
 
 
-sudo apt-get update && sudo apt-get install -y python devscripts debhelper dupload git pbuilder ca-certificates debsigs=0.1.26+yc1 reprepro
+git clone https://github.com/boundary/sigar.git -b master \
+&& wget -c https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.1.1.tar.gz -O - | tar -xz
+
+mv gpdb-devops/packaging/deb/jammy/debian ./
+
+sudo apt-get update && sudo apt-get install -y python devscripts debhelper dupload git pbuilder ca-certificates debsigs reprepro
 
 
 cat > changelog.sh <<EOF1
