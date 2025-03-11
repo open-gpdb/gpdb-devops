@@ -109,7 +109,7 @@ RUN cat /usr/share/zoneinfo/${TIMEZONE_VAR} > /etc/localtime && \
     chmod 777 /tmp/init_system.sh && \
     groupadd gpadmin && \
     useradd -rm -d /home/gpadmin -s /bin/bash -g root -G sudo -u 1001 gpadmin && \
-    echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers && \\
+    echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers && \
     locale-gen "en_US.UTF-8" && \
     update-locale LC_ALL="en_US.UTF-8"
 
