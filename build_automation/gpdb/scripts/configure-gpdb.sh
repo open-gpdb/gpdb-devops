@@ -17,6 +17,20 @@ source "${SCRIPT_DIR}/gpdb-utils.sh"
 export LOG_DIR="${SRC_DIR}/build-logs"
 CONFIGURE_LOG="${LOG_DIR}/configure.log"
 
+# Initialize environment
+init_environment "Cloudberry Configure Script" "${CONFIGURE_LOG}"
+
+# Initial setup
+log_section "Initial Setup"
+execute_cmd sudo rm -rf /usr/local/greenplum-db || exit 2
+execute_cmd sudo chmod a+w /usr/local || exit 2
+execute_cmd mkdir -p /usr/local/greenplum-db/lib || exit 2
+execute_cmd sudo cp /usr/local/xerces-c/lib/libxerces-c.so \
+        /usr/local/xerces-c/lib/libxerces-c-3.3.so \
+        /usr/local/greenplum-db/lib || exit 3
+execute_cmd sudo chown -R gpadmin:gpadmin /usr/local/greenplum-db || exit 2
+log_section_end "Initial Setup"
+
 # Configure build
 log_section "Configure"
 execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
