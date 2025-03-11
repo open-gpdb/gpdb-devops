@@ -20,9 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN stat -fc %T /sys/fs/cgroup/
 
-RUN useradd -rm -d /home/gpadmin -s /bin/bash -g root -G sudo -u 1001 gpadmin
-
-RUN ln -snf /usr/share/zoneinfo/ /etc/localtime && echo Europe/London > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo $TIMEZONE_VAR > /etc/timezone
 
 # --------------------------------------------------------------------
 # Install Development Tools and Utilities
@@ -104,8 +102,15 @@ RUN cd /tmp/ \
 # --------------------------------------------------------------------
 # Copy Configuration Files and Setup the Environment
 # --------------------------------------------------------------------
+COPY ./configs/* /tmp/
 
-RUN echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers
+RUN cat /usr/share/zoneinfo/${TIMEZONE_VAR} > /etc/localtime && \
+    chmod 777 /tmp/init_system.sh && \
+    groupadd gpadmin && \
+    useradd -rm -d /home/gpadmin -s /bin/bash -g root -G sudo -u 1001 gpadmin && \
+    echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers && \\
+    locale-gen "en_US.UTF-8" && \
+    update-locale LC_ALL="en_US.UTF-8"
 
 USER gpadmin
 WORKDIR /home/gpadmin
