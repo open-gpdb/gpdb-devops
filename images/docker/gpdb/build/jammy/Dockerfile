@@ -53,7 +53,5 @@ RUN cd /tmp/ \
 && mkdir build && cd build && cmake .. && make \
 && sudo make install
 
-COPY ./README.ubuntu22.bash /home/gpadmin
-
 RUN sudo DEBIAN_FRONTEND=noninteractive ./README.ubuntu22.bash \
 && sudo apt install -y libhyperic-sigar-java libaprutil1-dev libuv1-dev
