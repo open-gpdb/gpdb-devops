@@ -53,5 +53,4 @@ RUN cd /tmp/ \
 && mkdir build && cd build && cmake .. && make \
 && sudo make install
 
-RUN sudo DEBIAN_FRONTEND=noninteractive ./README.ubuntu22.bash \
-&& sudo apt install -y libhyperic-sigar-java libaprutil1-dev libuv1-dev
+RUN sudo DEBIAN_FRONTEND=noninteractive sudo apt install -y libhyperic-sigar-java libaprutil1-dev libuv1-dev
