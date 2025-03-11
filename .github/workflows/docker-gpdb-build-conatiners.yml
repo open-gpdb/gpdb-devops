@@ -60,15 +60,6 @@ jobs:
         if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
         uses: docker/setup-qemu-action@v3
 
-      # Login to DockerHub for pushing images
-      # Requires DOCKERHUB_USER and DOCKERHUB_TOKEN secrets to be set
-      - name: Login to Docker Hub
-        if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       # Setup Docker Buildx for efficient builds
       # Enable debug mode for better troubleshooting
       - name: Set up Docker Buildx
@@ -83,13 +74,13 @@ jobs:
         if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
         uses: docker/build-push-action@v6
         with:
-          context: ./images/docker/cbdb/build/${{ matrix.platform }}
+          context: ./images/docker/gpdb/build/${{ matrix.platform }}
           push: true
           platforms: linux/amd64,linux/arm64
           # Tag with both latest and version-specific tags
           tags: |
-            opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest
-            opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
+            ghcr.io/opengpdb/gpdb:gpdb-build-${{ matrix.platform }}-latest
+            ghcr.io/opengpdb/gpdb:gpdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
           # Add standard Open Container Initiative (OCI) labels
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
@@ -112,15 +103,15 @@ jobs:
           echo "- **Build Date**: ${{ steps.version.outputs.BUILD_DATE }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### 🐳 Docker Images" >> $GITHUB_STEP_SUMMARY
-          echo "- Latest tag: \`opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Version tag: \`opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Latest tag: \`ghcr.io/opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Version tag: \`ghcr.io/opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### 📋 Quick Reference" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
           echo "# Pull the image (automatically selects correct architecture)" >> $GITHUB_STEP_SUMMARY
-          echo "docker pull opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ghcr.io/opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "# Pull specific architecture if needed" >> $GITHUB_STEP_SUMMARY
-          echo "docker pull --platform linux/amd64 opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
-          echo "docker pull --platform linux/arm64 opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull --platform linux/amd64 ghcr.io/opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull --platform linux/arm64 ghcr.io/opengpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
