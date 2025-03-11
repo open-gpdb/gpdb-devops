@@ -87,8 +87,8 @@ jobs:
           platforms: linux/amd64
           # Tag with both latest and version-specific tags
           tags: |
-            ghcr.io/open-gpdb/gpdb:gpdb-build-${{ matrix.platform }}-latest
-            ghcr.io/open-gpdb/gpdb:gpdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
+            ghcr.io/open-gpdb/gpdb-env:${{ matrix.platform }}-latest
+            ghcr.io/open-gpdb/gpdb-env:${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
           # Add standard Open Container Initiative (OCI) labels
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
@@ -111,14 +111,14 @@ jobs:
           echo "- **Build Date**: ${{ steps.version.outputs.BUILD_DATE }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### 🐳 Docker Images" >> $GITHUB_STEP_SUMMARY
-          echo "- Latest tag: \`ghcr.io/open-gpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Version tag: \`ghcr.io/open-gpdb/gpdb:cbdb-build-${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Latest tag: \`ghcr.io/open-gpdb/gpdb-env:${{ matrix.platform }}-latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Version tag: \`ghcr.io/open-gpdb/gpdb-env:${{ matrix.platform }}-${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### 📋 Quick Reference" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
           echo "# Pull the image (automatically selects correct architecture)" >> $GITHUB_STEP_SUMMARY
-          echo "docker pull ghcr.io/open-gpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ghcr.io/open-gpdb/gpdb-env:${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "# Pull specific architecture if needed" >> $GITHUB_STEP_SUMMARY
-          echo "docker pull --platform linux/amd64 ghcr.io/open-gpdb/gpdb:cbdb-build-${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull --platform linux/amd64 ghcr.io/open-gpdb/gpdb-env:${{ matrix.platform }}-latest" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
