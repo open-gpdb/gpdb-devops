@@ -29,13 +29,15 @@ execute_cmd mkdir -p /usr/local/greenplum-db/lib || exit 2
 execute_cmd sudo chown -R gpadmin:gpadmin /usr/local/greenplum-db || exit 2
 log_section_end "Initial Setup"
 
+BUILD_DESTINATION=/usr/local/greenplum-db
+
 # Configure build
 log_section "Configure"
 execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
 		--with-extra-version="-oss" \
-        --with-libs=${DEBIAN_DESTINATION}/lib \
-        --with-includes=${DEBIAN_DESTINATION}/include \
-        --prefix=${DEBIAN_DESTINATION} \
+        --with-libs=${BUILD_DESTINATION}/lib \
+        --with-includes=${BUILD_DESTINATION}/include \
+        --prefix=${BUILD_DESTINATION} \
         --with-ldap \
         --enable-gpperfmon \
 	    --with-pam \
