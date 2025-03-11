@@ -60,6 +60,14 @@ jobs:
         if: ${{ steps.platform-filter.outputs[matrix.platform] == 'true' }}
         uses: docker/setup-qemu-action@v3
 
+      # Login to  GitHub Container Registry for pushing images
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       # Setup Docker Buildx for efficient builds
       # Enable debug mode for better troubleshooting
       - name: Set up Docker Buildx
