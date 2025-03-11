@@ -105,7 +105,7 @@ RUN cd /tmp/ \
 # --------------------------------------------------------------------
 COPY ./configs/* /tmp/
 
-RUN cat /usr/share/zoneinfo/${TIMEZONE_VAR} > /etc/localtime && \
+RUN echo ${TIMEZONE_VAR} > /etc/timezone && \
     chmod 777 /tmp/init_system.sh && \
     groupadd gpadmin && \
     useradd -rm -d /home/gpadmin -s /bin/bash -g root -G sudo -u 1001 gpadmin && \
