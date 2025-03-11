@@ -52,7 +52,7 @@ execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapredu
 log_section_end "Configure"
 
 log_section "Version Information"
-execute_cmd ag "GP_VERSION | GP_VERSION_NUM | PG_VERSION | PG_VERSION_NUM | PG_VERSION_STR" src/include/pg_config.h
+execute_cmd grep -E "GP_VERSION | GP_VERSION_NUM | PG_VERSION | PG_VERSION_NUM | PG_VERSION_STR" src/include/pg_config.h
 log_section_end "Version Information"
 
 # Log completion
