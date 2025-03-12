@@ -1,37 +1,33 @@
 #!/bin/bash
 #
-# Script Name: build-rpm.sh
+# Script Name: build-deb.sh
 #
 # Description:
-# This script automates the process of building an RPM package using a specified
-# version and release number. It ensures that the necessary tools are installed
-# and that the spec file exists before attempting to build the RPM. The script
+# This script automates the process of building an DEB package using a specified
+# version number. It ensures that the necessary tools are installed
+# and that the control file exists before attempting to build the DEB. The script
 # also includes error handling to provide meaningful feedback in case of failure.
 #
 # Usage:
-# ./build-rpm.sh -v <version> [-r <release>] [-d|--with-debug] [-h] [--dry-run]
+# ./build-deb.sh [-v <version>] [-h] [--dry-run]
 #
 # Options:
 #   -v, --version <version>    : Specify the version (required)
-#   -r, --release <release>    : Specify the release (optional, default is 1)
-#   -d, --with-debug           : Build with debug symbols (optional)
 #   -h, --help                 : Display this help and exit
 #   -n, --dry-run              : Show what would be done, without making any changes
 #
 # Example:
-#   ./build-rpm.sh -v 1.5.5 -r 2          # Build with version 1.5.5 and release 2
-#   ./build-rpm.sh -v 1.5.5               # Build with version 1.5.5 and default release 1
-#   ./build-rpm.sh -v 1.5.5 --with-debug  # Build with debug symbols
+#   ./build-deb.sh -v 1.5.5               # Build with version 1.5.5
 #
 # Prerequisites:
-# - The rpm-build package must be installed (provides the rpmbuild command).
-# - The spec file must exist at ~/rpmbuild/SPECS/apache-cloudberry-db-incubating.spec.
+# - The dpkg-buildpackage package must be installed (provides the dpkg-buildpackage command).
+# - The control file must exist at debian/control.
 #
 # Error Handling:
 # The script includes checks to ensure:
 # - The version option (-v or --version) is provided.
 # - The necessary commands are available.
-# - The spec file exists at the specified location.
+# - The control file exists at the specified location.
 # If any of these checks fail, the script exits with an appropriate error message.
 
 # Enable strict mode for better error handling
