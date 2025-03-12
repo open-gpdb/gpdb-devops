@@ -1,5 +1,5 @@
 Source: greenplum-db-6
-Maintainer: Greenplum Release Engineering <release@greenplum.org>
+Maintainer: open-gpdb dev team https://github.com/open-gpdb/gpdb
 Section: database
 Build-Depends: debhelper (>= 9),
     bison,
@@ -98,4 +98,3 @@ Description: Greenplum Database OSS
   current community contributors and all who are interested in new
   contributions.  For the Greenplum Database community, no contribution is too
   small, we encourage all types of contributions.
-

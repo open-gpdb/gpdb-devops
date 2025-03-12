@@ -1,39 +1,148 @@
 #!/bin/bash
 #
-# Script Name: build-deb.sh
+# Script Name: build-rpm.sh
 #
 # Description:
-# This script automates the process of building an DEBIAN package using a specified
-# version and release number.
+# This script automates the process of building an RPM package using a specified
+# version and release number. It ensures that the necessary tools are installed
+# and that the spec file exists before attempting to build the RPM. The script
+# also includes error handling to provide meaningful feedback in case of failure.
+#
+# Usage:
+# ./build-rpm.sh -v <version> [-r <release>] [-d|--with-debug] [-h] [--dry-run]
+#
+# Options:
+#   -v, --version <version>    : Specify the version (required)
+#   -r, --release <release>    : Specify the release (optional, default is 1)
+#   -d, --with-debug           : Build with debug symbols (optional)
+#   -h, --help                 : Display this help and exit
+#   -n, --dry-run              : Show what would be done, without making any changes
+#
+# Example:
+#   ./build-rpm.sh -v 1.5.5 -r 2          # Build with version 1.5.5 and release 2
+#   ./build-rpm.sh -v 1.5.5               # Build with version 1.5.5 and default release 1
+#   ./build-rpm.sh -v 1.5.5 --with-debug  # Build with debug symbols
+#
+# Prerequisites:
+# - The rpm-build package must be installed (provides the rpmbuild command).
+# - The spec file must exist at ~/rpmbuild/SPECS/apache-cloudberry-db-incubating.spec.
+#
+# Error Handling:
+# The script includes checks to ensure:
+# - The version option (-v or --version) is provided.
+# - The necessary commands are available.
+# - The spec file exists at the specified location.
+# If any of these checks fail, the script exits with an appropriate error message.
 
+# Enable strict mode for better error handling
+set -euo pipefail
 
-git clone https://github.com/boundary/sigar.git -b master \
-&& wget -c https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.1.1.tar.gz -O - | tar -xz
+# Default values
+VERSION=""
+RELEASE="1"
+DEBUG_BUILD=false
 
-mv gpdb-devops/packaging/deb/jammy/debian ./
+# Function to display usage information
+usage() {
+  echo "Usage: $0 [-v <version>] [-h] [--dry-run]"
+  echo "  -v, --version <version>    : Specify the version (optional)"
+  echo "  -h, --help                 : Display this help and exit"
+  echo "  -n, --dry-run              : Show what would be done, without making any changes"
+  exit 1
+}
 
-sudo apt-get update && sudo apt-get install -y python devscripts debhelper dupload git pbuilder ca-certificates debsigs reprepro
+# Function to check if required commands are available
+check_commands() {
+  local cmds=("dpkg-buildpackage")
+  for cmd in "${cmds[@]}"; do
+    if ! command -v "$cmd" &> /dev/null; then
+      echo "Error: Required command '$cmd' not found. Please install it before running the script."
+      exit 1
+    fi
+  done
+}
 
-
-cat > changelog.sh <<EOF1
+function print_changelog() {
 cat <<EOF
-greenplum-db-6 (\${GPDB_PKG_VERSION}) stable; urgency=low
+greenplum-db-6 (${GPDB_PKG_VERSION}) stable; urgency=low
 
   * open-gpdb autobuild
--- Vladimir Rachkin <robozmey@$(hostname)>  $(date +'%a, %d %b %Y %H:%M:%S %z')
+
+  -- ${BUILD_USER} <${BUILD_USER}@$(hostname)>  $(date +'%a, %d %b %Y %H:%M:%S %z')
 EOF
-EOF1
-chmod +x changelog.sh
+}
 
-export BUILD_USER="Vladimir Rachkin"
-export GPDB_VERSION=$(./getversion | cut -d'.' -f 1)
-export GPDB_FULL_VERSION=$(./getversion | cut -d'-' -f 1 | cut -d'+' -f 1)
-export GPDB_PKG_VERSION=${GPDB_FULL_VERSION}-${BUILD_NUMBER}-yandex.$(git rev-list HEAD --count).$(git rev-parse --short HEAD)
-echo "##teamcity[buildNumber '%build.counter%: ${GPDB_PKG_VERSION}']"
+# Parse options
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    -v|--version)
+      VERSION="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      ;;
+    -n|--dry-run)
+      DRY_RUN=true
+      shift
+      ;;
+    *)
+      echo "Unknown option: ($1)"
+      shift
+      ;;
+  esac
+done
 
-./changelog.sh > debian/changelog
-cat debian/changelog
-mk-build-deps  --build-dep --install --tool='apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes' debian/control
-dpkg-buildpackage -us -uc
+export GPDB_FULL_VERSION=$VERSION
 
-all_debs=$(ls *deb)
+# Set version if not provided
+if [ -z "${VERSION}" ]; then
+  export GPDB_FULL_VERSION=$(./getversion | cut -d'-' -f 1 | cut -d'+' -f 1)
+fi
+
+if [ -z ${BUILD_NUMBER+x} ]; then
+  export BUILD_NUMBER=1
+fi
+
+if [ -z ${BUILD_USER+x} ]; then
+  export BUILD_USER=$USER
+fi
+
+export GPDB_PKG_VERSION=${GPDB_FULL_VERSION}-${BUILD_NUMBER}-yandex.$(git --git-dir=.git rev-list HEAD --count).$(git --git-dir=.git rev-parse --short HEAD)
+
+# Check if required commands are available
+check_commands
+
+# Define the control file path
+CONTROL_FILE=debian/control
+
+# Check if the spec file exists
+if [ ! -f "$CONTROL_FILE" ]; then
+  echo "Error: Control file not found at $CONTROL_FILE."
+  exit 1
+fi
+
+# Build the rpmbuild command based on options
+DEBBUILD_CMD="dpkg-buildpackage -us -uc"
+
+# Dry-run mode
+if [ "${DRY_RUN:-false}" = true ]; then
+  echo "Dry-run mode: This is what would be done:"
+  print_changelog
+  echo ""
+  echo "$DEBBUILD_CMD"
+  exit 0
+fi
+
+# Run debbuild with the provided options
+echo "Building DEB with Version $GPDB_FULL_VERSION ..."
+
+print_changelog > debian/changelog
+
+if ! eval "$DEBBUILD_CMD"; then
+  echo "Error: deb build failed."
+  exit 1
+fi
+
+# Print completion message
+echo "DEB build completed successfully with package $GPDB_PKG_VERSION"
