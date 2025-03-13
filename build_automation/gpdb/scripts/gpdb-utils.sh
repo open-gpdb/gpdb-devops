@@ -7,10 +7,19 @@
 #
 # --------------------------------------------------------------------
 
+DEFAULT_BUILD_DESTINATION=/opt/greenplum-db-6
+
 # Initialize logging and environment
 init_environment() {
+
     local script_name=$1
     local log_file=$2
+    local build_destination=$3
+
+    if [ -z "$build_destination" ]; then
+        build_destination=${DEFAULT_BUILD_DESTINATION}
+    fi
+    export BUILD_DESTINATION=$build_destination
 
     echo "=== Initializing environment for ${script_name} ==="
     echo "${script_name} executed at $(date)" | tee -a "${log_file}"
@@ -19,6 +28,7 @@ init_environment() {
     echo "Working directory: $(pwd)" | tee -a "${log_file}"
     echo "Source directory: ${SRC_DIR}" | tee -a "${log_file}"
     echo "Log directory: ${LOG_DIR}" | tee -a "${log_file}"
+    echo "Build destination: ${BUILD_DESTINATION}" | tee -a "${log_file}"
 
     if [ -z "${SRC_DIR:-}" ]; then
         echo "Error: SRC_DIR environment variable is not set" | tee -a "${log_file}"
