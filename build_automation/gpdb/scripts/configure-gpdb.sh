@@ -1,9 +1,87 @@
 #!/bin/bash
 # --------------------------------------------------------------------
 #
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed
+# with this work for additional information regarding copyright
+# ownership.  The ASF licenses this file to You under the Apache
+# License, Version 2.0 (the "License"); you may not use this file
+# except in compliance with the License.  You may obtain a copy of the
+# License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.  See the License for the specific language governing
+# permissions and limitations under the License.
+#
+# --------------------------------------------------------------------
+#
 # Script: configure-gpdb.sh
-# Description: Configures Greenplum build environment and runs
-#             ./configure with optimized settings.
+# Description: Configures Open-gpdb build environment and runs
+#             ./configure with optimized settings. Performs the
+#             following:
+#             1. Prepares /opt/greenplum-db-6 directory
+#             2. Sets up library dependencies
+#             3. Configures build with required features enabled
+#
+# Configuration Features:
+#   - Cloud Storage Integration (gpcloud)
+#   - IC Proxy Support
+#   - MapReduce Processing
+#   - Oracle Compatibility (orafce)
+#   - ORCA Query Optimizer
+#   - PXF External Table Access
+#   - Test Automation Support (tap-tests)
+#
+# System Integration:
+#   - GSSAPI Authentication
+#   - LDAP Authentication
+#   - XML Processing
+#   - LZ4 Compression
+#   - OpenSSL Support
+#   - PAM Authentication
+#   - Perl Support
+#   - Python Support
+#
+# Required Environment Variables:
+#   SRC_DIR - Root source directory
+#
+# Optional Environment Variables:
+#   LOG_DIR - Directory for logs (defaults to ${SRC_DIR}/build-logs)
+#   ENABLE_DEBUG - Enable debug build options (true/false, defaults to
+#                  false)
+#
+#                 When true, enables:
+#                   --enable-debug
+#                   --enable-profiling
+#                   --enable-cassert
+#                   --enable-debug-extensions
+#
+# Prerequisites:
+#   - System dependencies must be installed:
+#     * xerces-c development files
+#     * OpenSSL development files
+#     * Python development files
+#     * Perl development files
+#     * LDAP development files
+#   - /usr/local must be writable
+#   - User must have sudo privileges
+#
+# Usage:
+#   Export required variables:
+#     export SRC_DIR=/path/to/open-gpdb/source
+#   Then run:
+#     ./configure-gpdb.sh
+#
+# Exit Codes:
+#   0 - Configuration completed successfully
+#   1 - Environment setup failed
+#   2 - Directory preparation failed
+#   3 - Library setup failed
+#   4 - Configure command failed
 #
 # --------------------------------------------------------------------
 
@@ -19,34 +97,51 @@ mkdir -p "${LOG_DIR}"
 CONFIGURE_LOG="${LOG_DIR}/configure.log"
 
 # Initialize environment
-init_environment "Cloudberry Configure Script" "${CONFIGURE_LOG}"
+init_environment "Open-Gpdb Configure Script" "${CONFIGURE_LOG}" ""
 
 # Initial setup
 log_section "Initial Setup"
-execute_cmd sudo rm -rf /usr/local/greenplum-db || exit 2
-execute_cmd sudo chmod a+w /usr/local || exit 2
-execute_cmd mkdir -p /usr/local/greenplum-db/lib || exit 2
-execute_cmd sudo chown -R gpadmin:gpadmin /usr/local/greenplum-db || exit 2
+
+# Sanity check if we not delete the whole /usr or /opt
+num_slash=`echo "${BUILD_DESTINATION}" | awk -F"/" '{print NF-1}'`
+if [ "$num_slash" -le 1 ]; then
+  log_section "It is not safe to remove ${BUILD_DESTINATION}"
+  exit 1
+fi
+
+execute_cmd sudo rm -rf ${BUILD_DESTINATION} || exit 2
+execute_cmd sudo mkdir -p ${BUILD_DESTINATION}/lib || exit 2
+execute_cmd sudo chown -R gpadmin:gpadmin ${BUILD_DESTINATION} || exit 2
+execute_cmd sudo chmod -R 776 ${BUILD_DESTINATION} || exit 2
 log_section_end "Initial Setup"
 
-BUILD_DESTINATION=/usr/local/greenplum-db
+# Add debug options if ENABLE_DEBUG is set to "true"
+CONFIGURE_DEBUG_OPTS=""
+
+if [ "${ENABLE_DEBUG:-false}" = "true" ]; then
+    CONFIGURE_DEBUG_OPTS="--enable-debug \
+                          --enable-profiling \
+                          --enable-cassert \
+                          --enable-debug-extensions"
+fi
 
 # Configure build
 log_section "Configure"
 execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
-		--with-extra-version="-oss" \
+        --with-extra-version="-oss" \
         --with-libs=${BUILD_DESTINATION}/lib \
         --with-includes=${BUILD_DESTINATION}/include \
         --prefix=${BUILD_DESTINATION} \
+        ${CONFIGURE_DEBUG_OPTS} \
         --with-ldap \
         --enable-gpperfmon \
-	    --with-pam \
+        --with-pam \
         --with-openssl \
         --disable-pxf \
         --enable-ic-proxy \
         --with-system-tzdata=/usr/share/zoneinfo \
         --enable-orafce \
-		--without-mdblocales \
+	--without-mdblocales \
         --with-zstd
 
 log_section_end "Configure"
