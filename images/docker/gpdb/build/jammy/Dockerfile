@@ -43,19 +43,20 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   curl \
   cgroup-tools \
   flex \
-  gcc-9 \
-  g++-9 \
-  g++-9-multilib \
+  gcc-11 \
+  g++-11 \
+  g++-11-multilib \
   git \
   krb5-multidev \
   libapr1-dev \
   libbz2-dev \
   libcurl4-gnutls-dev \
+  libpstreams-dev \
   libevent-dev \
   libkrb5-dev \
   libldap2-dev \
   libperl-dev \
-  libreadline6-dev \
+  libreadline-dev \
   libssl-dev \
   libxml2-dev \
   libyaml-dev \
@@ -65,10 +66,9 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   libpam0g \
   libcgroup1 \
   libyaml-0-2 \
-  libldap2-dev \
-  openssl \
+  libldap-2.5-0 \
+  libssl3 \
   ninja-build \
-  python2-dev \
   python-setuptools \
   quilt \
   unzip \
@@ -77,6 +77,8 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   libuv1-dev \
   libgpgme-dev \
   libgpgme11 \
+  python2.7 \
+  python2.7-dev \
   sudo \
   iproute2 \
   less \
@@ -95,7 +97,7 @@ RUN cd /tmp/ \
 && sudo make install
 
 RUN cd /tmp/ \
-&& git clone https://github.com/boundary/sigar.git \
+&& git clone https://github.com/boundary/sigar.git -b master \
 && cd ./sigar/ \
 && mkdir build && cd build && cmake .. && make \
 && sudo make install
@@ -103,6 +105,9 @@ RUN cd /tmp/ \
 # --------------------------------------------------------------------
 # Copy Configuration Files and Setup the Environment
 # --------------------------------------------------------------------
+
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
+
 COPY ./configs/* /tmp/
 
 RUN echo ${TIMEZONE_VAR} > /etc/timezone && \
