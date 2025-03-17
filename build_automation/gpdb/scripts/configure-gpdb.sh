@@ -50,6 +50,7 @@
 #   SRC_DIR - Root source directory
 #
 # Optional Environment Variables:
+#   BUILD_DESTINATION - Directory to store build files, by default /opt/greenplum-db-6
 #   LOG_DIR - Directory for logs (defaults to ${SRC_DIR}/build-logs)
 #   ENABLE_DEBUG - Enable debug build options (true/false, defaults to
 #                  false)
@@ -73,6 +74,7 @@
 # Usage:
 #   Export required variables:
 #     export SRC_DIR=/path/to/open-gpdb/source
+#     export BUILD_DESTINATION = debian/build
 #   Then run:
 #     ./configure-gpdb.sh
 #
@@ -97,17 +99,10 @@ mkdir -p "${LOG_DIR}"
 CONFIGURE_LOG="${LOG_DIR}/configure.log"
 
 # Initialize environment
-init_environment "Open-Gpdb Configure Script" "${CONFIGURE_LOG}" ""
+init_environment "Open-Gpdb Configure Script" "${CONFIGURE_LOG}" "${BUILD_DESTINATION}"
 
 # Initial setup
 log_section "Initial Setup"
-
-# Sanity check if we not delete the whole /usr or /opt
-num_slash=`echo "${BUILD_DESTINATION}" | awk -F"/" '{print NF-1}'`
-if [ "$num_slash" -le 1 ]; then
-  log_section "It is not safe to remove ${BUILD_DESTINATION}"
-  exit 1
-fi
 
 execute_cmd sudo rm -rf ${BUILD_DESTINATION} || exit 2
 execute_cmd sudo mkdir -p ${BUILD_DESTINATION}/lib || exit 2

@@ -33,12 +33,14 @@
 #   source code
 #
 # Optional Environment Variables:
+#   BUILD_DESTINATION - Directory to store build data
 #   LOG_DIR - Directory for logs (defaults to ${SRC_DIR}/build-logs)
 #   NPROC   - Number of parallel jobs (defaults to all available cores)
 #
 # Usage:
 #   Export required variables:
 #     export SRC_DIR=/path/to/open-gpdb/source
+#     export BUILD_DESTINATION=debian/build
 #   Then run:
 #     ./build-gpdb.sh
 #
@@ -67,7 +69,7 @@ export LOG_DIR="${SRC_DIR}/build-logs"
 BUILD_LOG="${LOG_DIR}/build.log"
 
 # Initialize environment
-init_environment "Open-Gpdb Build Script" "${BUILD_LOG}" ""
+init_environment "Open-Gpdb Build Script" "${BUILD_LOG}" "${BUILD_DESTINATION}"
 
 # Set environment
 log_section "Environment Setup"
