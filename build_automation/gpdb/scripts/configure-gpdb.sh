@@ -106,8 +106,8 @@ log_section "Initial Setup"
 
 execute_cmd sudo rm -rf ${BUILD_DESTINATION} || exit 2
 execute_cmd sudo mkdir -p ${BUILD_DESTINATION}/lib || exit 2
-execute_cmd sudo chown -R gpadmin:gpadmin ${BUILD_DESTINATION} || exit 2
 execute_cmd sudo chmod -R 776 ${BUILD_DESTINATION} || exit 2
+execute_cmd sudo chown -R "$(whoami)" ${BUILD_DESTINATION} || exit 2
 log_section_end "Initial Setup"
 
 # Add debug options if ENABLE_DEBUG is set to "true"
