@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DH_VERBOSE = 1
+DPKG_EXPORT_BUILDFLAGS = 1
+GPDB_PKG_VERSION := $(GPDB_PKG_VERSION)
+PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
+
+include /usr/share/dpkg/default.mk
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_install:
+	make install
+
+override_dh_auto_configure:
+	echo "Skipping configure"
+
+override_dh_auto_build:
+	echo "Skipping build"
+
+override_dh_shlibdeps:
+
+override_dh_auto_test:
+	echo "Skipping auto test"
+
+override_dh_auto_clean:
+
+override_dh_gencontrol:
+	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
+	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
