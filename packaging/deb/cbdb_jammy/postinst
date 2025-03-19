@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+OWNER=root
+GPHOME=/opt/greenplum-db-cb
+
+if [ "$1" = configure ]; then
+
+  /sbin/ldconfig
+fi
