@@ -11,33 +11,22 @@ include /usr/share/dpkg/default.mk
 %:
 	dh $@ --parallel
 
-override_dh_auto_configure:
-	./configure \
-          --with-python \
-          --with-libxml \
-          --with-gssapi \
-          --prefix=/opt/greenplum-db-cb \
-          --with-ldap \
-          --with-pam \
-          --with-openssl \
-          --enable-ic-proxy \
-          --enable-debug \
-          --with-system-tzdata=/usr/share/zoneinfo \
-          --enable-orafce \
-          --enable-gpcloud \
-          --with-zstd \
-          --with-systemd \
-          --with-pythonsrc-ext \
-          --disable-pxf
+override_dh_auto_install:
+	make install
 
-override_dh_auto_build-arch:
-	MAKELEVEL=0 $(MAKE) -j8
+override_dh_auto_configure:
+	echo "Skipping configure"
+
+override_dh_auto_build:
+	echo "Skipping build"
 
 override_dh_shlibdeps:
 
 override_dh_auto_test:
+	echo "Skipping auto test"
 
 override_dh_auto_clean:
 
 override_dh_gencontrol:
+	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
 	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
