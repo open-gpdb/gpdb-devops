@@ -61,6 +61,8 @@
 #                   --enable-cassert
 #                   --enable-debug-extensions
 #
+#   CONFIGURE_EXTRA_OPTS - args to pass to configure
+#
 # Prerequisites:
 #   - System dependencies must be installed:
 #     * xerces-c development files
@@ -136,8 +138,8 @@ execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapredu
         --enable-ic-proxy \
         --with-system-tzdata=/usr/share/zoneinfo \
         --enable-orafce \
-	--without-mdblocales \
-        --with-zstd
+        --without-mdblocales \
+        --with-zstd ${CONFIGURE_EXTRA_OPTS}
 
 log_section_end "Configure"
 
