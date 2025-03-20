@@ -139,7 +139,7 @@ execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapredu
         --with-system-tzdata=/usr/share/zoneinfo \
         --enable-orafce \
         --without-mdblocales \
-        --with-zstd ${CONFIGURE_EXTRA_OPTS}
+        --with-zstd ${CONFIGURE_EXTRA_OPTS:-""}
 
 log_section_end "Configure"
 
