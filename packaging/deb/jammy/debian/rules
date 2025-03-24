@@ -27,7 +27,7 @@ gpinstall:
 override_dh_auto_install: gpinstall
 	# the staging directory for creating a debian is NOT the right GPHOME.
 	# change GPHOME to point to the post-install target install directory.
-	sed -i "s#GPHOME=.*#GPHOME=${GPDB_HOME_PREFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
+	sed -i "s#GPHOME=.*#GPHOME=${GPDB_SOURCE_PEFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
 
 override_dh_auto_build:
 	echo "Skipping build"
@@ -46,7 +46,7 @@ override_dh_gencontrol:
 	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
 
 override_dh_shlibdeps:
-	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
 clean_dev_local:
 	rm -rf ${DEBIAN_DESTINATION}
