@@ -34,6 +34,7 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   libssl-dev \
   debhelper \
   debootstrap \
+  libfakeroot \
   make \
   equivs \
   bison \

@@ -46,7 +46,7 @@ override_dh_gencontrol:
 	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
 
 override_dh_shlibdeps:
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/libfakeroot:${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
 clean_dev_local:
 	rm -rf ${DEBIAN_DESTINATION}
