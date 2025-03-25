@@ -43,7 +43,6 @@ Build-Depends: debhelper (>= 9),
     unzip,
     wget,
     zlib1g-dev,
-    libmdblocales-dev (>= 25~),
     libuv1-dev
 
 Package: greenplum-db-6
@@ -85,8 +84,6 @@ Depends: curl,
     rsync,
     wget,
     zlib1g,
-    libmdblocales1 (>= 25~),
-    mdb-locales (>= 25~),
     libuv1
 Description: Greenplum Database OSS
   Greenplum Database is an advanced, fully featured, open source data platform.
