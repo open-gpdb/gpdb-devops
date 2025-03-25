@@ -97,7 +97,7 @@ if [ -z "${VERSION}" ]; then
 fi
 
 if [[ ! $GPDB_FULL_VERSION =~ ^[0-9] ]]; then
-    GPDB_FULL_VERSION="0.$GPDB_FULL_VERSION"
+    export GPDB_FULL_VERSION="0.$GPDB_FULL_VERSION"
 fi 
 
 if [ -z ${BUILD_NUMBER+x} ]; then
