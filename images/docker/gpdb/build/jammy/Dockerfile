@@ -48,6 +48,7 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   g++-11 \
   g++-11-multilib \
   git \
+  iputils-ping \
   krb5-multidev \
   libapr1-dev \
   libbz2-dev \
@@ -65,10 +66,12 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   libaprutil1-dev \
   libpam0g-dev \
   libpam0g \
+  libpopt0 \
   libcgroup1 \
   libyaml-0-2 \
   libldap-2.5-0 \
   libssl3 \
+  net-tools \
   ninja-build \
   python-setuptools \
   quilt \
@@ -80,6 +83,9 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   libgpgme11 \
   python2.7 \
   python2.7-dev \
+  python-pip \
+  python-six \
+  rsync \
   sudo \
   iproute2 \
   less \
