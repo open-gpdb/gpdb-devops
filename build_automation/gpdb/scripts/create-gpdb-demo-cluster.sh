@@ -68,18 +68,18 @@ set -euo pipefail
 
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "${SCRIPT_DIR}/cloudberry-utils.sh"
+source "${SCRIPT_DIR}/gpdb-utils.sh"
 
 # Define log directory
 export LOG_DIR="${SRC_DIR}/build-logs"
 CLUSTER_LOG="${LOG_DIR}/cluster.log"
 
 # Initialize environment
-init_environment "Cloudberry Demo Cluster Script" "${CLUSTER_LOG}"
+init_environment "Greenplum Demo Cluster Script" "${CLUSTER_LOG}" "/opt/greenplum-db-6"
 
 # Setup environment
 log_section "Environment Setup"
-source /usr/local/cloudberry-db/greenplum_path.sh || exit 1
+source /usr/local/greenplum-db/greenplum_path.sh || exit 1
 log_section_end "Environment Setup"
 
 # Verify SSH access
@@ -89,12 +89,12 @@ log_section_end "SSH Verification"
 
 # Create demo cluster
 log_section "Demo Cluster Creation"
-execute_cmd make create-demo-cluster --directory ${SRC_DIR}/../cloudberry || exit 3
+execute_cmd make create-demo-cluster --directory ${SRC_DIR}/../gpdb || exit 3
 log_section_end "Demo Cluster Creation"
 
 # Source demo environment
 log_section "Source Environment"
-source ${SRC_DIR}/../cloudberry/gpAux/gpdemo/gpdemo-env.sh || exit 1
+source ${SRC_DIR}/../gpdb/gpAux/gpdemo/gpdemo-env.sh || exit 1
 log_section_end "Source Environment"
 
 # Manage cluster state
@@ -121,5 +121,5 @@ fi
 log_section_end "Installation Verification"
 
 # Log completion
-log_completion "Cloudberry Demo Cluster Script" "${CLUSTER_LOG}"
+log_completion "Greenplum Demo Cluster Script" "${CLUSTER_LOG}"
 exit 0
