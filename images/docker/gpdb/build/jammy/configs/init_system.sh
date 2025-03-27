@@ -4,6 +4,15 @@
 
 
 # --------------------------------------------------------------------
+# Configure SSH access
+# --------------------------------------------------------------------
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+sudo service ssh start
+ssh -o StrictHostKeyChecking=no gpadmin@$(hostname) "echo 'Hello world'"
+
+
+# --------------------------------------------------------------------
 # Display a Welcome Banner
 # --------------------------------------------------------------------
 # The following ASCII art and welcome message are displayed when the
