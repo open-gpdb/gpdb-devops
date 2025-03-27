@@ -3,6 +3,14 @@
 # --------------------------------------------------------------------
 
 # --------------------------------------------------------------------
+# Remove /run/nologin to allow logins
+# --------------------------------------------------------------------
+# The /run/nologin file, if present, prevents users from logging into
+# the system. This file is removed to ensure that users can log in via SSH.
+# --------------------------------------------------------------------
+sudo rm -rf /run/nologin
+
+# --------------------------------------------------------------------
 # Configure passwordless SSH access for 'gpadmin' user
 # --------------------------------------------------------------------
 # The script sets up SSH key-based authentication for the 'gpadmin' user,
