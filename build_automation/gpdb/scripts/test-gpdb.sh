@@ -40,7 +40,7 @@
 #     export MAKE_DIRECTORY="/path/to/make/dir"
 #     export MAKE_NAME="Install Check"
 #   Then run:
-#     ./test-cloudberry.sh
+#     ./test-gpdb.sh
 #
 # Exit Codes:
 #   0 - All tests passed successfully
@@ -53,18 +53,18 @@ set -euo pipefail
 
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "${SCRIPT_DIR}/cloudberry-utils.sh"
+source "${SCRIPT_DIR}/gpdb-utils.sh"
 
 # Define log directory and files
 export LOG_DIR="build-logs"
 TEST_LOG="${LOG_DIR}/test.log"
 
 # Initialize environment
-init_environment "Cloudberry Test Script" "${TEST_LOG}"
+init_environment "Greenplum Test Script" "${TEST_LOG}"
 
-# Source Cloudberry environment
+# Source Greenplum environment
 log_section "Environment Setup"
-source_cloudberry_env || exit 1
+source_greenplum_env || exit 1
 log_section_end "Environment Setup"
 
 echo "MAKE_TARGET: ${MAKE_TARGET}"
@@ -77,5 +77,5 @@ execute_cmd make ${MAKE_TARGET} ${MAKE_DIRECTORY} || exit 2
 log_section_end "Install Check"
 
 # Log completion
-log_completion "Cloudberry Test Script" "${TEST_LOG}"
+log_completion "Greenplum Test Script" "${TEST_LOG}"
 exit 0

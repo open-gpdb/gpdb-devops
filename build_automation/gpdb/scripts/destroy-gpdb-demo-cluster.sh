@@ -64,26 +64,26 @@ set -euo pipefail
 
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "${SCRIPT_DIR}/cloudberry-utils.sh"
+source "${SCRIPT_DIR}/gpdb-utils.sh"
 
 # Define log directory
 export LOG_DIR="${SRC_DIR}/build-logs"
 CLUSTER_LOG="${LOG_DIR}/destroy-cluster.log"
 
 # Initialize environment
-init_environment "Destroy Cloudberry Demo Cluster Script" "${CLUSTER_LOG}"
+init_environment "Destroy Greenplum Demo Cluster Script" "${CLUSTER_LOG}"
 
-# Source Cloudberry environment
+# Source Greenplum environment
 log_section "Environment Setup"
-source_cloudberry_env || {
-    echo "Failed to source Cloudberry environment" | tee -a "${CLUSTER_LOG}"
+source_greenplum_env || {
+    echo "Failed to source Greenplum environment" | tee -a "${CLUSTER_LOG}"
     exit 1
 }
 log_section_end "Environment Setup"
 
 # Destroy demo cluster
 log_section "Destroy Demo Cluster"
-execute_cmd make destroy-demo-cluster --directory ${SRC_DIR}/../cloudberry || {
+execute_cmd make destroy-demo-cluster --directory ${SRC_DIR}/../gpdb || {
     echo "Failed to destroy demo cluster" | tee -a "${CLUSTER_LOG}"
     exit 2
 }
@@ -91,11 +91,11 @@ log_section_end "Destroy Demo Cluster"
 
 # Verify cleanup
 log_section "Cleanup Verification"
-if [ -d "${SRC_DIR}/../cloudberry/gpAux/gpdemo/data" ]; then
+if [ -d "${SRC_DIR}/../gpdb/gpAux/gpdemo/data" ]; then
     echo "Warning: Data directory still exists after cleanup" | tee -a "${CLUSTER_LOG}"
 fi
 log_section_end "Cleanup Verification"
 
 # Log completion
-log_completion "Destroy Cloudberry Demo Cluster Script" "${CLUSTER_LOG}"
+log_completion "Destroy Greenplum Demo Cluster Script" "${CLUSTER_LOG}"
 exit 0

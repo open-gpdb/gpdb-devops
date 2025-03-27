@@ -56,11 +56,11 @@ run_psql_cmd() {
     return ${PIPESTATUS[0]}
 }
 
-# Function to source Cloudberry environment
-source_cloudberry_env() {
-    echo "=== Sourcing Cloudberry environment ===" | tee -a "${LOG_DIR}/environment.log"
-    source /usr/local/cloudberry-db/greenplum_path.sh
-    source ${SRC_DIR}/../cloudberry/gpAux/gpdemo/gpdemo-env.sh
+# Function to source Greenplum environment
+source_greenplum_env() {
+    echo "=== Sourcing Greenplum environment ===" | tee -a "${LOG_DIR}/environment.log"
+    source ${BUILD_DESTINATION}/greenplum_path.sh
+    source ${SRC_DIR}/../gpdb/gpAux/gpdemo/gpdemo-env.sh
 }
 
 # Function to log section start
