@@ -6,6 +6,9 @@
 # --------------------------------------------------------------------
 # Configure SSH access
 # --------------------------------------------------------------------
+mkdir -p /home/gpadmin/.ssh
+chmod 700 /home/gpadmin/.ssh
+
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 sudo service ssh start
