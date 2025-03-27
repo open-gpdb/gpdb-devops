@@ -72,6 +72,7 @@ source "${SCRIPT_DIR}/gpdb-utils.sh"
 
 # Define log directory
 export LOG_DIR="${SRC_DIR}/build-logs"
+mkdir -p "${LOG_DIR}"
 CLUSTER_LOG="${LOG_DIR}/cluster.log"
 
 # Initialize environment
