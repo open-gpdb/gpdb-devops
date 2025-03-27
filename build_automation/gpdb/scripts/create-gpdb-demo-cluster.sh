@@ -82,10 +82,10 @@ log_section "Environment Setup"
 source /opt/greenplum-db-6/greenplum_path.sh || exit 1
 log_section_end "Environment Setup"
 
-# Verify SSH access
-log_section "SSH Verification"
-execute_cmd ssh $(hostname) 'whoami; hostname' || exit 2
-log_section_end "SSH Verification"
+# # Verify SSH access
+# log_section "SSH Verification"
+# execute_cmd ssh $(hostname) 'whoami; hostname' || exit 2
+# log_section_end "SSH Verification"
 
 # Create demo cluster
 log_section "Demo Cluster Creation"
