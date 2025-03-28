@@ -34,6 +34,10 @@
 #   LOG_DIR - Directory for logs (defaults to build-logs)
 #   PGOPTIONS - PostgreSQL server options
 #
+# Prerequisites:
+#   - Greenplum must be installed (/opt/greenplum-db-6)
+#   - create-gpdb-demo-cluster.sh must be run first
+#
 # Usage:
 #   Export required variables:
 #     export MAKE_TARGET=installcheck-world
@@ -50,6 +54,8 @@
 # --------------------------------------------------------------------
 
 set -euo pipefail
+
+export BUILD_DESTINATION="/opt/greenplum-db-6"
 
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

@@ -66,6 +66,8 @@
 
 set -euo pipefail
 
+export BUILD_DESTINATION="/opt/greenplum-db-6"
+
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "${SCRIPT_DIR}/gpdb-utils.sh"
