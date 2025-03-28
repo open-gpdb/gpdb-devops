@@ -20,7 +20,7 @@
 # --------------------------------------------------------------------
 #
 # Script: build-gpdb.sh
-# Description: Builds Apache Cloudberry from source code and installs
+# Description: Builds Greenplum from source code and installs
 # it.
 #             Performs the following steps:
 #             1. Builds main open-gpdb database components
@@ -29,7 +29,7 @@
 #             Uses parallel compilation based on available CPU cores.
 #
 # Required Environment Variables:
-#   SRC_DIR - Root source directory containing Apache Cloudberry
+#   SRC_DIR - Root source directory containing Greenplum
 #   source code
 #
 # Optional Environment Variables:
@@ -45,7 +45,7 @@
 #     ./build-gpdb.sh
 #
 # Prerequisites:
-#   - configure-cloudberry.sh must be run first
+#   - configure-gpdb.sh must be run first
 #   - Required build dependencies must be installed
 #   - /usr/local/cloudberry-db/lib must exist and be writable
 #

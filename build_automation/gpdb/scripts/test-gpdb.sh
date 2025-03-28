@@ -19,10 +19,10 @@
 #
 # --------------------------------------------------------------------
 #
-# Script: test-cloudberry.sh
-# Description: Executes Apache Cloudberry test suite using specified
+# Script: test-gpdb.sh
+# Description: Executes Greenplum test suite using specified
 #             make target.  Supports different test types through make
-#             target configuration.  Sources Cloudberry environment
+#             target configuration.  Sources Greenplum environment
 #             before running tests.
 #
 # Required Environment Variables:
@@ -34,13 +34,17 @@
 #   LOG_DIR - Directory for logs (defaults to build-logs)
 #   PGOPTIONS - PostgreSQL server options
 #
+# Prerequisites:
+#   - Greenplum must be installed (/opt/greenplum-db-6)
+#   - create-gpdb-demo-cluster.sh must be run first
+#
 # Usage:
 #   Export required variables:
 #     export MAKE_TARGET=installcheck-world
 #     export MAKE_DIRECTORY="/path/to/make/dir"
 #     export MAKE_NAME="Install Check"
 #   Then run:
-#     ./test-cloudberry.sh
+#     ./test-gpdb.sh
 #
 # Exit Codes:
 #   0 - All tests passed successfully
@@ -51,20 +55,22 @@
 
 set -euo pipefail
 
+export BUILD_DESTINATION="/opt/greenplum-db-6"
+
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "${SCRIPT_DIR}/cloudberry-utils.sh"
+source "${SCRIPT_DIR}/gpdb-utils.sh"
 
 # Define log directory and files
 export LOG_DIR="build-logs"
 TEST_LOG="${LOG_DIR}/test.log"
 
 # Initialize environment
-init_environment "Cloudberry Test Script" "${TEST_LOG}"
+init_environment "Greenplum Test Script" "${TEST_LOG}" "/opt/greenplum-db-6"
 
-# Source Cloudberry environment
+# Source Greenplum environment
 log_section "Environment Setup"
-source_cloudberry_env || exit 1
+source_greenplum_env || exit 1
 log_section_end "Environment Setup"
 
 echo "MAKE_TARGET: ${MAKE_TARGET}"
@@ -77,5 +83,5 @@ execute_cmd make ${MAKE_TARGET} ${MAKE_DIRECTORY} || exit 2
 log_section_end "Install Check"
 
 # Log completion
-log_completion "Cloudberry Test Script" "${TEST_LOG}"
+log_completion "Greenplum Test Script" "${TEST_LOG}"
 exit 0
