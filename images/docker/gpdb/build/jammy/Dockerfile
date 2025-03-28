@@ -95,7 +95,7 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   locales
 
 
-RUN pip install psutil
+RUN pip2 install psutil
 
 RUN apt-get install -y locales \
 && locale-gen "en_US.UTF-8" \
