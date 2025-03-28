@@ -129,3 +129,15 @@ USER gpadmin
 WORKDIR /home/gpadmin
 
 RUN sudo DEBIAN_FRONTEND=noninteractive apt install -y libhyperic-sigar-java libaprutil1-dev libuv1-dev
+
+# --------------------------------------------------------------------
+# Set the Default User and Command
+# --------------------------------------------------------------------
+# The default user is set to 'gpadmin', and the container starts by
+# running the init_system.sh script. This container serves as a base
+# environment, and the Cloudberry Database RPM can be installed for
+# testing and functional verification.
+# --------------------------------------------------------------------
+USER gpadmin
+
+CMD ["bash","-c","/tmp/init_system.sh"]
