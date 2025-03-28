@@ -60,7 +60,7 @@ export LOG_DIR="build-logs"
 TEST_LOG="${LOG_DIR}/test.log"
 
 # Initialize environment
-init_environment "Greenplum Test Script" "${TEST_LOG}"
+init_environment "Greenplum Test Script" "${TEST_LOG}" "/opt/greenplum-db-6"
 
 # Source Greenplum environment
 log_section "Environment Setup"
