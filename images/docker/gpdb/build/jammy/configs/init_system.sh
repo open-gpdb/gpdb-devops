@@ -16,6 +16,11 @@ ssh-keygen -f /home/gpadmin/.ssh/id_rsa -N ''
 cat /home/gpadmin/.ssh/id_rsa.pub >> /home/gpadmin/.ssh/authorized_keys
 chmod 600 /home/gpadmin/.ssh/authorized_keys
 
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+sudo service ssh start
+ssh -o StrictHostKeyChecking=no gpadmin@$(hostname) "echo 'Hello world'"
+
 # --------------------------------------------------------------------
 # Cloudberry Data Directories Setup
 # --------------------------------------------------------------------
