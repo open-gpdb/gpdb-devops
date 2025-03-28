@@ -22,27 +22,6 @@ sudo service ssh start
 ssh -o StrictHostKeyChecking=no gpadmin@$(hostname) "echo 'Hello world'"
 
 # --------------------------------------------------------------------
-# Greenplum Data Directories Setup
-# --------------------------------------------------------------------
-# The script sets up the necessary directories for Greenplum,
-# including directories for the coordinator, standby coordinator, primary
-# segments, and mirror segments. It also sets up the configuration files
-# required for initializing the database.
-# --------------------------------------------------------------------
-sudo rm -rf /data1/*
-sudo mkdir -p /data1/coordinator /data1/standby_coordinator /data1/primary /data1/mirror
-sudo chown -R gpadmin.gpadmin /data1
-
-# Copy the gpinitsystem configuration file to the home directory
-cp /tmp/gpinitsystem.conf /home/gpadmin
-
-# Set up the hostfile for cluster initialization
-echo $(hostname) > /home/gpadmin/hostfile_gpinitsystem
-
-# Change to the home directory of the current user
-cd $HOME
-
-# --------------------------------------------------------------------
 # Display a Welcome Banner
 # --------------------------------------------------------------------
 # The following ASCII art and welcome message are displayed when the
