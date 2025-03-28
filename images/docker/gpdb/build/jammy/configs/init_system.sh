@@ -3,14 +3,6 @@
 # --------------------------------------------------------------------
 
 # --------------------------------------------------------------------
-# Remove /run/nologin to allow logins
-# --------------------------------------------------------------------
-# The /run/nologin file, if present, prevents users from logging into
-# the system. This file is removed to ensure that users can log in via SSH.
-# --------------------------------------------------------------------
-sudo rm -rf /run/nologin
-
-# --------------------------------------------------------------------
 # Configure passwordless SSH access for 'gpadmin' user
 # --------------------------------------------------------------------
 # The script sets up SSH key-based authentication for the 'gpadmin' user,
@@ -20,10 +12,7 @@ sudo rm -rf /run/nologin
 mkdir -p /home/gpadmin/.ssh
 chmod 700 /home/gpadmin/.ssh
 
-if [ ! -f /home/gpadmin/.ssh/id_rsa ]; then
-    ssh-keygen -t rsa -b 4096 -C gpadmin -f /home/gpadmin/.ssh/id_rsa -P "" > /dev/null 2>&1
-fi
-
+ssh-keygen -f /home/gpadmin/.ssh/id_rsa -N ''
 cat /home/gpadmin/.ssh/id_rsa.pub >> /home/gpadmin/.ssh/authorized_keys
 chmod 600 /home/gpadmin/.ssh/authorized_keys
 
@@ -127,17 +116,17 @@ get_cpu_info() {
    fi
 }
 
-# Check if Apache Cloudberry is installed and display its version
-if rpm -q apache-cloudberry-db-incubating > /dev/null 2>&1; then
-    CBDB_VERSION=$(/usr/local/cbdb/bin/postgres --gp-version)
+# Check if Greenplum is installed and display its version
+if dpkg -l greenplum-db-6 > /dev/null 2>&1; then
+    GPDB_VERSION=$(/usr/local/cbdb/bin/postgres --gp-version)
 else
-    CBDB_VERSION="Not installed"
+    GPDB_VERSION="Not installed"
 fi
 
 cat <<-EOF
-Welcome to the Apache Cloudberry Test Environment!
+Welcome to the Greebplum Test Environment!
 
-Cloudberry version .. : $CBDB_VERSION
+Greenplum version ... : $GPDB_VERSION
 Container OS ........ : $NAME $VERSION
 User ................ : $(whoami)
 Container hostname .. : $(hostname)

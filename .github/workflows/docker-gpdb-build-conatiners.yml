@@ -95,6 +95,8 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ steps.version.outputs.BUILD_DATE }}
             org.opencontainers.image.version=${{ steps.version.outputs.BUILD_DATE }}-${{ steps.version.outputs.SHA_SHORT }}
+            org.opencontainers.image.description="Containerized environment for building and testing Greenplum Database. Includes all necessary dependencies, tools, and configurations to streamline the development and build process."
+            org.opencontainers.image.title="Greenplum Build Environment"
 
       # Generate a detailed build summary in GitHub Actions UI
       # This provides quick access to build information and image usage instructions
