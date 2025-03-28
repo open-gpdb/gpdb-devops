@@ -94,6 +94,9 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   openssh-server \
   locales
 
+
+RUN pip install psutil
+
 RUN apt-get install -y locales \
 && locale-gen "en_US.UTF-8" \
 && update-locale LC_ALL="en_US.UTF-8"
