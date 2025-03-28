@@ -87,6 +87,7 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   python-six \
   rsync \
   sudo \
+  tzdata \
   iproute2 \
   less \
   software-properties-common \
