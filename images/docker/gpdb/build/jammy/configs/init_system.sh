@@ -22,9 +22,9 @@ sudo service ssh start
 ssh -o StrictHostKeyChecking=no gpadmin@$(hostname) "echo 'Hello world'"
 
 # --------------------------------------------------------------------
-# Cloudberry Data Directories Setup
+# Greenplum Data Directories Setup
 # --------------------------------------------------------------------
-# The script sets up the necessary directories for Apache Cloudberry,
+# The script sets up the necessary directories for Greenplum,
 # including directories for the coordinator, standby coordinator, primary
 # segments, and mirror segments. It also sets up the configuration files
 # required for initializing the database.
@@ -88,7 +88,7 @@ EOF
 # - IP address
 # - CPU model name and number of cores
 # - Total memory available
-# - Cloudberry version (if installed)
+# - Greenplum version (if installed)
 # This information is useful for users to understand the environment they
 # are working in.
 # --------------------------------------------------------------------
@@ -123,7 +123,7 @@ get_cpu_info() {
 
 # Check if Greenplum is installed and display its version
 if dpkg -l greenplum-db-6 > /dev/null 2>&1; then
-    GPDB_VERSION=$(/usr/local/cbdb/bin/postgres --gp-version)
+    GPDB_VERSION=$(/opt/greenplum-db-6/bin/postgres --gp-version)
 else
     GPDB_VERSION="Not installed"
 fi

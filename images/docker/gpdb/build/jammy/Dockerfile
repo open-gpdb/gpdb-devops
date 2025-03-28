@@ -138,8 +138,8 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt install -y libhyperic-sigar-java lib
 # --------------------------------------------------------------------
 # The default user is set to 'gpadmin', and the container starts by
 # running the init_system.sh script. This container serves as a base
-# environment, and the Cloudberry Database RPM can be installed for
-# testing and functional verification.
+# environment, and the Greenplum Database DEB package can be installed
+# for testing and functional verification.
 # --------------------------------------------------------------------
 USER gpadmin
 

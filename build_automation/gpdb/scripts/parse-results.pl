@@ -20,7 +20,7 @@
 # --------------------------------------------------------------------
 #
 # Script: parse_results.pl
-# Description: Processes Cloudberry test output to extract statistics
+# Description: Processes Greenplum test output to extract statistics
 # and results.
 #             Analyzes test log files to determine:
 #             1. Overall test status (pass/fail)

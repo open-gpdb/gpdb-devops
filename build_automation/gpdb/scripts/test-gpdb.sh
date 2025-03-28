@@ -19,10 +19,10 @@
 #
 # --------------------------------------------------------------------
 #
-# Script: test-cloudberry.sh
-# Description: Executes Apache Cloudberry test suite using specified
+# Script: test-gpdb.sh
+# Description: Executes Greenplum test suite using specified
 #             make target.  Supports different test types through make
-#             target configuration.  Sources Cloudberry environment
+#             target configuration.  Sources Greenplum environment
 #             before running tests.
 #
 # Required Environment Variables:

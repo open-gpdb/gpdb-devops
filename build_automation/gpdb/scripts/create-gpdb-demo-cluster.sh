@@ -19,8 +19,8 @@
 #
 # --------------------------------------------------------------------
 #
-# Script: create-cloudberry-demo-cluster.sh
-# Description: Creates and configures a demo Apache Cloudbery cluster.
+# Script: create-gpdb-demo-cluster.sh
+# Description: Creates and configures a demo Greenplum cluster.
 #             Performs the following steps:
 #             1. Sets up required environment variables
 #             2. Verifies SSH connectivity
@@ -35,7 +35,7 @@
 #   LOG_DIR - Directory for logs (defaults to ${SRC_DIR}/build-logs)
 #
 # Prerequisites:
-#   - Apache Cloudberry must be installed (/opt/greenplum-db-6)
+#   - Greenplum must be installed (/opt/greenplum-db-6)
 #   - SSH must be configured for passwordless access to localhost
 #   - User must have permissions to create cluster directories
 #   - PostgreSQL client tools (psql) must be available
@@ -47,7 +47,7 @@
 #     ./create-gpdb-demo-cluster.sh
 #
 # Verification Checks:
-#   - Apache Cloudberry version
+#   - Greenplum version
 #   - Segment configuration
 #   - Available extensions
 #   - Active sessions

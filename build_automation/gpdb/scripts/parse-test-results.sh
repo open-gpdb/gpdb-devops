@@ -20,7 +20,7 @@
 # --------------------------------------------------------------------
 #
 # Script: parse-test-results.sh
-# Description: Parses Apache Cloudberry test results and processes the
+# Description: Parses Greenplum test results and processes the
 # output.
 #             Provides GitHub Actions integration and environment
 #             variable export functionality. This script is a wrapper

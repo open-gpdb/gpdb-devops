@@ -19,8 +19,8 @@
 #
 # --------------------------------------------------------------------
 #
-# Script: destroy-cloudberry-demo-cluster.sh
-# Description: Destroys and cleans up a demo Apache Cloudberry
+# Script: destroy-gpdb-demo-cluster.sh
+# Description: Destroys and cleans up a demo Greenplum
 # cluster.
 #             Performs the following steps:
 #             1. Sources required environment variables
@@ -35,15 +35,15 @@
 #   LOG_DIR - Directory for logs (defaults to ${SRC_DIR}/build-logs)
 #
 # Prerequisites:
-#   - Apache Cloudberry environment must be available
+#   - Greenplum environment must be available
 #   - User must have permissions to remove cluster directories
 #   - No active connections to the cluster
 #
 # Usage:
 #   Export required variables:
-#     export SRC_DIR=/path/to/cloudberry/source
+#     export SRC_DIR=/path/to/gpdb/source
 #   Then run:
-#     ./destroy-cloudberry-demo-cluster.sh
+#     ./destroy-gpdb-demo-cluster.sh
 #
 # Exit Codes:
 #   0 - Cluster destroyed successfully
@@ -51,7 +51,7 @@
 #   2 - Cluster destruction failed
 #
 # Related Scripts:
-#   - create-cloudberry-demo-cluster.sh: Creates a new demo cluster
+#   - create-gpdb-demo-cluster.sh: Creates a new demo cluster
 #
 # Notes:
 #   - This script will forcefully terminate all cluster processes
@@ -71,7 +71,7 @@ export LOG_DIR="${SRC_DIR}/build-logs"
 CLUSTER_LOG="${LOG_DIR}/destroy-cluster.log"
 
 # Initialize environment
-init_environment "Destroy Greenplum Demo Cluster Script" "${CLUSTER_LOG}"
+init_environment "Destroy Greenplum Demo Cluster Script" "${CLUSTER_LOG}" "/opt/greenplum-db-6"
 
 # Source Greenplum environment
 log_section "Environment Setup"
