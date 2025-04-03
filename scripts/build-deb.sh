@@ -35,6 +35,7 @@
 set -euo pipefail
 
 # Default values
+PACKAGE="greenplum-db-6"
 VERSION=""
 RELEASE="1"
 DEBUG_BUILD=false
@@ -63,7 +64,7 @@ check_commands() {
 
 function print_changelog() {
 cat <<EOF
-greenplum-db-6 (${GPDB_PKG_VERSION}) stable; urgency=low
+${PACKAGE} (${GPDB_PKG_VERSION}) stable; urgency=low
 
   * open-gpdb autobuild
 
@@ -131,7 +132,8 @@ fi
 
 # Change package name to custom
 if [ -n "$CUSTOM_NAME" ]; then
-  sed -i "s/^Package: .*/Package: $CUSTOM_NAME/" "$CONTROL_FILE"
+  PACKAGE="$CUSTOM_NAME"
+  sed -i "s/^Package: .*/Package: $PACKAGE/" "$CONTROL_FILE"
   sed -i "s/^Description:/Conflicts: greenplum-db-6\nDescription:/" "$CONTROL_FILE"
 fi
 
