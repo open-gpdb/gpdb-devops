@@ -15,6 +15,7 @@
 #   -v, --version <version>    : Specify the version (required)
 #   -h, --help                 : Display this help and exit
 #   -n, --dry-run              : Show what would be done, without making any changes
+#   --name                     : Custom package name
 #
 # Example:
 #   ./build-deb.sh -v 1.5.5               # Build with version 1.5.5
@@ -44,6 +45,7 @@ usage() {
   echo "  -v, --version <version>    : Specify the version (optional)"
   echo "  -h, --help                 : Display this help and exit"
   echo "  -n, --dry-run              : Show what would be done, without making any changes"
+  echo "  --custom-name              : Custom package name"
   exit 1
 }
 
@@ -81,6 +83,10 @@ while [[ "$#" -gt 0 ]]; do
     -n|--dry-run)
       DRY_RUN=true
       shift
+      ;;
+    --custom-name)
+      CUSTOM_NAME="$2"
+      shift 2
       ;;
     *)
       echo "Unknown option: ($1)"
@@ -120,6 +126,12 @@ CONTROL_FILE=debian/control
 if [ ! -f "$CONTROL_FILE" ]; then
   echo "Error: Control file not found at $CONTROL_FILE."
   exit 1
+fi
+
+# Change package name to custom
+if [ -n "$CUSTOM_NAME" ]; then
+  sed -i "s/^Package: .*/Package: $CUSTOM_NAME/" "$CONTROL_FILE"
+  sed -i "s/^Description:/Conflicts: greenplum-db-6\nDescription:/" "$CONTROL_FILE"
 fi
 
 # Build the rpmbuild command based on options
