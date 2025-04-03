@@ -15,7 +15,7 @@
 #   -v, --version <version>    : Specify the version (required)
 #   -h, --help                 : Display this help and exit
 #   -n, --dry-run              : Show what would be done, without making any changes
-#   --name                     : Custom package name
+#   --custom-name              : Custom package name
 #
 # Example:
 #   ./build-deb.sh -v 1.5.5               # Build with version 1.5.5
