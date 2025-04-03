@@ -38,6 +38,7 @@ set -euo pipefail
 VERSION=""
 RELEASE="1"
 DEBUG_BUILD=false
+CUSTOM_NAME=""
 
 # Function to display usage information
 usage() {
