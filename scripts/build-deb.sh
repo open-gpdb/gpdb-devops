@@ -133,6 +133,7 @@ fi
 # Change package name to custom
 if [ -n "$CUSTOM_NAME" ]; then
   PACKAGE="$CUSTOM_NAME"
+  sed -i "s/^Source: .*/Source: $CUSTOM_NAME/" "$CONTROL_FILE"
   sed -i "s/^Package: .*/Package: $PACKAGE/" "$CONTROL_FILE"
   sed -i "s/^Description:/Conflicts: greenplum-db-6\nDescription:/" "$CONTROL_FILE"
 fi
