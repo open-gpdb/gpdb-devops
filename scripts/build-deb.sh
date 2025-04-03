@@ -96,8 +96,10 @@ if [ -z "${VERSION}" ]; then
   export GPDB_FULL_VERSION=$(./getversion | cut -d'-' -f 1 | cut -d'+' -f 1)
 fi
 
+export GPDB_FULL_VERSION=${GPDB_FULL_VERSION//_/-}
+
 if [[ ! $GPDB_FULL_VERSION =~ ^[0-9] ]]; then
-    export GPDB_FULL_VERSION="0.$GPDB_FULL_VERSION"
+    export GPDB_FULL_VERSION="6.$GPDB_FULL_VERSION"
 fi 
 
 if [ -z ${BUILD_NUMBER+x} ]; then
