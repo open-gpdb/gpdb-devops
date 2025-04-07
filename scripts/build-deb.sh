@@ -116,7 +116,9 @@ if [ -z ${BUILD_USER+x} ]; then
   export BUILD_USER=github
 fi
 
-export GPDB_PKG_VERSION=${GPDB_FULL_VERSION}-${BUILD_NUMBER}-yandex.$(git --git-dir=.git rev-list HEAD --count).$(git --git-dir=.git rev-parse --short HEAD)
+if [ -z ${GPDB_PKG_VERSION} ]; then
+  export GPDB_PKG_VERSION=${GPDB_FULL_VERSION}-${BUILD_NUMBER}-yandex.$(git --git-dir=.git rev-list HEAD --count).$(git --git-dir=.git rev-parse --short HEAD)
+fi
 
 # Check if required commands are available
 check_commands
