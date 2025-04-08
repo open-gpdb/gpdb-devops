@@ -79,6 +79,7 @@ echo "PGOPTIONS: ${PGOPTIONS}"
 
 # Execute specified target
 log_section "Install Check"
+execute_cmd make install -C src/test/regress || exit 2
 execute_cmd make ${MAKE_TARGET} ${MAKE_DIRECTORY} || exit 2
 log_section_end "Install Check"
 
