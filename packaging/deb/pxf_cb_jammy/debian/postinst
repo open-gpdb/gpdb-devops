@@ -5,7 +5,7 @@ set -e
 OWNER=root
 PXFVER=1
 PXFHOME=/opt/greenplum-pxf-${PXFVER}
-GPHOME=/opt/greenplum-db-1
+GPHOME=/usr/cloudberry-db
 
 chown -R ${OWNER}:${OWNER} ${PXFHOME}
 chown    ${OWNER}:${OWNER} ${GPHOME}/lib/postgresql/pxf.so
