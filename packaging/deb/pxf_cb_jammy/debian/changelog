@@ -1,4 +1,4 @@
-greenplum-pxf-6 (6.10.0) jammy; urgency=medium
+greenplum-pxf-cb (1.0.0) jammy; urgency=medium
 
   * Development release.
 

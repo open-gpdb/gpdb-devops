@@ -1,4 +1,4 @@
-greenplum-db-6 (6.10.1) bionic; urgency=medium
+greenplum-db-6 (6.10.1) jammy; urgency=medium
 
   * Initial release.
 

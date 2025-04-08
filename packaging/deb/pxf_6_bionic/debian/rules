@@ -9,11 +9,8 @@ DEBIAN_DESTINATION := ${PXF_SRC_DIR}/debian/build
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
 export GPHOME := ${DEBIAN_DESTINATION}/gp
 
-export GOROOT := ${PXF_SRC_DIR}/go
-export GOPATH := ${PXF_SRC_DIR}/cli/go
-export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH)
+export PATH := $(GPHOME)/bin:$(PATH)
 
-$(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
 $(info    GPVAR is $(GP_PATH_SCRIPT))
 $(info    GOROOT is $(GOROOT))
