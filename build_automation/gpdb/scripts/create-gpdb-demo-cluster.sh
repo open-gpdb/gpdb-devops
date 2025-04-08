@@ -83,6 +83,7 @@ init_environment "Greenplum Demo Cluster Script" "${CLUSTER_LOG}" "/opt/greenplu
 # Setup environment
 log_section "Environment Setup"
 source /opt/greenplum-db-6/greenplum_path.sh || exit 1
+execute_cmd ulimit -n 65536 || exit 1
 log_section_end "Environment Setup"
 
 # # Verify SSH access
