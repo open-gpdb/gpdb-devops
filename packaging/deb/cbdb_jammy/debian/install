@@ -1,1 +1,1 @@
-debian/build/* /opt/greenplum-db-cb
+debian/build/* /usr/cloudberry-db

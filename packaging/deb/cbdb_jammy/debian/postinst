@@ -3,9 +3,12 @@
 set -e
 
 OWNER=root
-GPHOME=/opt/greenplum-db-cb
+GPHOME=/usr/cloudberry-db
 
 if [ "$1" = configure ]; then
 
   /sbin/ldconfig
 fi
+
+# add alternative location for the database binaries
+ln -s /opt/greenplum-db-cb /usr/cloudberry-db
