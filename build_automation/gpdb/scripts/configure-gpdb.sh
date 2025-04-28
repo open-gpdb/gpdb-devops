@@ -57,9 +57,13 @@
 #
 #                 When true, enables:
 #                   --enable-debug
-#                   --enable-profiling
 #                   --enable-cassert
 #                   --enable-debug-extensions
+#
+#   ENABLE_PROFILING - Enable profiling options (default is false)
+#
+#                 When true, enables:
+#                   --enable-profiling
 #
 #   CONFIGURE_EXTRA_OPTS - args to pass to configure
 #
@@ -117,9 +121,13 @@ CONFIGURE_DEBUG_OPTS=""
 
 if [ "${ENABLE_DEBUG:-false}" = "true" ]; then
     CONFIGURE_DEBUG_OPTS="--enable-debug \
-                          --enable-profiling \
                           --enable-cassert \
                           --enable-debug-extensions"
+fi
+
+CONFIGURE_PROFILING_OPTS=""
+if [ "${ENABLE_PROFILING:-false}" = "true" ]; then
+    CONFIGURE_PROFILING_OPTS="--enable-profiling"
 fi
 
 # Configure build
@@ -130,6 +138,7 @@ execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapredu
         --with-includes=${BUILD_DESTINATION}/include \
         --prefix=${BUILD_DESTINATION} \
         ${CONFIGURE_DEBUG_OPTS} \
+	${CONFIGURE_PROFILING_OPTS} \
         --with-ldap \
         --enable-gpperfmon \
         --with-pam \
