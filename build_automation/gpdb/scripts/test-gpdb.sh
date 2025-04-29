@@ -56,7 +56,6 @@
 set -euo pipefail
 
 export BUILD_DESTINATION="/opt/greenplum-db-6"
-export PGOPTIONS="${PGOPTIONS:--c optimizer=on}"
 
 # Source common utilities
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
