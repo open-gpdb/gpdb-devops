@@ -93,10 +93,11 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   software-properties-common \
   openssh-client \
   openssh-server \
-  locales
+  locales \
+  postgresql-client
 
 
-RUN pip2 install psutil
+RUN pip2 install psutil pyyaml
 
 RUN apt-get install -y locales \
 && locale-gen "en_US.UTF-8" \
@@ -130,6 +131,7 @@ RUN echo ${TIMEZONE_VAR} > /etc/timezone && \
     update-locale LC_ALL="en_US.UTF-8"
 
 USER gpadmin
+ENV USER=gpadmin
 WORKDIR /home/gpadmin
 
 RUN sudo DEBIAN_FRONTEND=noninteractive apt install -y libhyperic-sigar-java libaprutil1-dev libuv1-dev
