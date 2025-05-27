@@ -14,7 +14,6 @@ ENV YEZZEY_REF=${yezzeyRef:-v1.8_opengpdb}
 # Argument for configuring the timezone
 ARG TIMEZONE_VAR="Europe/London"
 
-
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -96,7 +95,6 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   locales \
   postgresql-client
 
-
 RUN pip2 install psutil pyyaml
 
 RUN apt-get install -y locales \
@@ -126,15 +124,14 @@ RUN echo ${TIMEZONE_VAR} > /etc/timezone && \
     chmod 777 /tmp/init_system.sh && \
     groupadd gpadmin && \
     useradd -rm -d /home/gpadmin -s /bin/bash -g root -G sudo -u 1001 gpadmin && \
-    echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers && \
+    echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/90-gpadmin && \
+    chmod 0440 /etc/sudoers.d/90-gpadmin && \
     locale-gen "en_US.UTF-8" && \
     update-locale LC_ALL="en_US.UTF-8"
 
-USER gpadmin
-ENV USER=gpadmin
-WORKDIR /home/gpadmin
-
 RUN sudo DEBIAN_FRONTEND=noninteractive apt install -y libhyperic-sigar-java libaprutil1-dev libuv1-dev
+
+RUN chmod +x /tmp/init_system.sh
 
 # --------------------------------------------------------------------
 # Set the Default User and Command
@@ -145,5 +142,7 @@ RUN sudo DEBIAN_FRONTEND=noninteractive apt install -y libhyperic-sigar-java lib
 # for testing and functional verification.
 # --------------------------------------------------------------------
 USER gpadmin
+ENV USER=gpadmin
+WORKDIR /home/gpadmin
 
 CMD ["bash","-c","/tmp/init_system.sh"]
