@@ -130,6 +130,11 @@ if [ "${ENABLE_PROFILING:-false}" = "true" ]; then
     CONFIGURE_PROFILING_OPTS="--enable-profiling"
 fi
 
+CONFIGURE_MDBLOCALES_OPTS="--without-mdblocales"
+if [ "${ENABLE_MDBLOCALES:-false}" = "true" ]; then
+    CONFIGURE_MDBLOCALES_OPTS=""
+fi
+
 # Configure build
 log_section "Configure"
 execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
@@ -147,7 +152,7 @@ execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapredu
         --enable-ic-proxy \
         --with-system-tzdata=/usr/share/zoneinfo \
         --enable-orafce \
-        --without-mdblocales \
+        ${CONFIGURE_MDBLOCALES_OPTS} \
         --with-zstd ${CONFIGURE_EXTRA_OPTS:-""}
 
 log_section_end "Configure"

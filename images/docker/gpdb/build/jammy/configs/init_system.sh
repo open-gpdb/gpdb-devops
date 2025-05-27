@@ -149,7 +149,7 @@ else
 fi
 
 cat <<-EOF
-Welcome to the Greebplum Test Environment!
+Welcome to the open-gpdb Build Environment!
 
 Greenplum version ... : $GPDB_VERSION
 Container OS ........ : $NAME $VERSION
