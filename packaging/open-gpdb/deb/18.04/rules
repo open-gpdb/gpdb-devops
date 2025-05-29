@@ -1,0 +1,52 @@
+#!/usr/bin/make -f
+
+DH_VERBOSE = 1
+DPKG_EXPORT_BUILDFLAGS = 1
+
+GPDB_SOURCE_PREFIX := /opt/greenplum-db-6
+DEBIAN_DESTINATION := $(shell pwd)/debian/build
+
+# assumes that CWD is root of gpdb source
+GPDB_SRC_DIR := $(shell pwd)
+GPDB_VERSION := $(shell ./getversion | cut -d' ' -f 1)
+GPDB_MAJOR_VERSION := $(shell ./getversion | cut -d'.' -f 1)
+GPDB_PKG_VERSION := $(GPDB_PKG_VERSION)
+PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
+PATH := ${DEBIAN_DESTINATION}/bin:${PATH}
+
+.PHONY: gpinstall
+
+include /usr/share/dpkg/default.mk
+
+%:
+	dh $@ --parallel
+
+gpinstall:
+	make install
+
+override_dh_auto_install: gpinstall
+	# the staging directory for creating a debian is NOT the right GPHOME.
+	# change GPHOME to point to the post-install target install directory.
+	sed -i "s#GPHOME=.*#GPHOME=${GPDB_SOURCE_PREFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
+
+override_dh_auto_build:
+	echo "Skipping build"
+
+override_dh_auto_clean:
+	echo "Skipping clean"
+
+override_dh_auto_configure:
+	echo "Skipping configure"
+
+override_dh_auto_test:
+	echo "Skipping auto test"
+
+override_dh_gencontrol:
+	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
+	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
+
+override_dh_shlibdeps:
+	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+
+clean_dev_local:
+	rm -rf ${DEBIAN_DESTINATION}
