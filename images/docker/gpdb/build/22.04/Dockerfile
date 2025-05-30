@@ -18,7 +18,8 @@ ARG TIMEZONE_VAR="Europe/London"
 # --------------------------------------------------------------------
 # Install Development Tools and Utilities
 # --------------------------------------------------------------------
-RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install -y --no-install-recommends --allow-unauthenticated \
+RUN sed -i "s/archive.ubuntu.com/mirror.yandex.ru/g" /etc/apt/sources.list && \
+  apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install -y --no-install-recommends --allow-unauthenticated \
   bison \
   build-essential \
   ca-certificates \
