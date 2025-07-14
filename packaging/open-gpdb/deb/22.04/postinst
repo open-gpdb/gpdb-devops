@@ -2,12 +2,12 @@
 
 set -e
 
-GPADMIN=gpadmin
+OWNER=root
 GPVER=6
 GPHOME=/opt/greenplum-db
 
 if [ "$1" = configure ]; then
 
-  chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}-${GPVER}
+  chown -R ${OWNER}:${OWNER} ${GPHOME}-${GPVER}
 
 fi
