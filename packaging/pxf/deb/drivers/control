@@ -1,6 +1,6 @@
 Source: greenplum-pxf-drivers
 Section: database
-Maintainer: <ostinru@yandex-team.ru>
+Maintainer: <opengpdb@yandex-team.ru>
 Build-Depends: debhelper (>=9.0.0)
 
 Package: greenplum-pxf-drivers

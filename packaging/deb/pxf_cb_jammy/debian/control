@@ -1,6 +1,6 @@
 Source: greenplum-pxf-cb
 Section: database
-Maintainer: <ostinru@localhost>
+Maintainer: <opengpdb@yandex-team.ru>
 Build-Depends: debhelper (>=9),
     ca-certificates-java,
     ca-certificates,
