@@ -68,7 +68,7 @@ ${PACKAGE} (${GPDB_PKG_VERSION}) stable; urgency=low
 
   * open-gpdb autobuild
 
-  -- ${BUILD_USER} <${BUILD_USER}@$(hostname)>  $(date +'%a, %d %b %Y %H:%M:%S %z')
+ -- ${BUILD_USER} <${BUILD_USER}@$(hostname)>  $(date +'%a, %d %b %Y %H:%M:%S %z')
 EOF
 }
 

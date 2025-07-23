@@ -1,5 +1,5 @@
 Source: greenplum-db-6
-Maintainer: open-gpdb dev team https://github.com/open-gpdb/gpdb
+Maintainer: open-gpdb dev team <opengpdb@yandex-team.ru> 
 Section: database
 Build-Depends: debhelper (>= 9),
     bison,
