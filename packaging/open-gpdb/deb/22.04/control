@@ -44,6 +44,7 @@ Build-Depends: debhelper (>= 9),
     libuv1-dev
 
 Package: greenplum-db-6
+Provides: greenplum-db-6
 Architecture: amd64
 Depends: curl,
     cgroup-tools,
