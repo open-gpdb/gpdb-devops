@@ -4,7 +4,7 @@ Maintainer: Valeriy Sokolov <sokolval@yandex-team.ru>
 Standards-Version: 3.6.2
 Build-Depends: 
  libgeos-dev,
- libproj-dev<8,
+ libproj-dev (<<8.0.0),
  libgdal-dev,
  libjson-c-dev,
  libxml2-dev,
