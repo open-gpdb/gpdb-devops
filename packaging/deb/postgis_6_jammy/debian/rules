@@ -12,12 +12,12 @@ override_dh_shlibdeps:
 
 override_dh_auto_configure:
 	./autogen.sh
-	export LD_LIBRARY_PATH=/opt/greenplum-db-$(MAJOR_VER)/lib:/usr/lib/x86_64-linux-gnu
+	export LD_LIBRARY_PATH=/opt/greenplum-db-$(MAJOR_VER)/lib
 	dh_auto_configure -- \
-            --prefix=/opt/greenplum-db-$(MAJOR_VER) \
-	    --with-pgconfig=/opt/greenplum-db-$(MAJOR_VER)/bin/pg_config \
-	    --with-raster \
-	    --without-topology
+	--prefix=/opt/greenplum-db-$(MAJOR_VER) \
+	--with-pgconfig=/opt/greenplum-db-$(MAJOR_VER)/bin/pg_config \
+	--with-raster \
+	--without-topology
 
 override_dh_auto_test:
 	echo "Skipping auto test"
