@@ -13,7 +13,7 @@ Build-Depends:
 
 Package: gpdb-postgis
 Architecture: any
-Pre-Depends: libgeos3.10.2, libgeos-c1v5, libprotobuf-c1, proj-data, gdal-data
-Depends: ${shlibs:Depends}, ${misc:Depends}, libproj-dev, libgdal-dev
+Pre-Depends: libgeos3.10.2, libgeos-c1v5, libprotobuf-c1, proj-data, gdal-data, libgdal30
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: postgis for Greenplum Database (GPDB)
  Postgis - Spatial and Geographic Objects for Greenplum Database
