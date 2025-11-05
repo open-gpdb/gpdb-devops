@@ -1,0 +1,19 @@
+Source: gpdb-postgis
+Priority: optional
+Maintainer: Valeriy Sokolov <sokolval@yandex-team.ru> 
+Standards-Version: 3.6.2
+Build-Depends: 
+ libgeos-dev,
+ libproj-dev (<<8.0.0),
+ libgdal-dev,
+ libjson-c-dev,
+ libxml2-dev,
+ libexpat1-dev,
+ libprotobuf-c-dev
+
+Package: gpdb-postgis
+Architecture: any
+Pre-Depends: libgeos3.10.2, libgeos-c1v5, libprotobuf-c1, proj-data, gdal-data, libgdal30
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: postgis for Greenplum Database (GPDB)
+ Postgis - Spatial and Geographic Objects for Greenplum Database
