@@ -5,5 +5,5 @@ Build-Depends: debhelper (>=9.0.0)
 
 Package: greenplum-pxf-drivers
 Architecture: any
-Depends: openjdk-11-jre
+Depends: openjdk-11-jre-headless
 Description: Drivers for Greenplum PXF 6
