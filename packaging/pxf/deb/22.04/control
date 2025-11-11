@@ -48,6 +48,7 @@ Package: greenplum-pxf-6
 Architecture: amd64
 Depends: ca-certificates-java,
   openjdk-11-jre,
+  greenplum-db-6,
   curl,
   libcurl3-gnutls,
   libcurl4
