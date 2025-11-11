@@ -8,7 +8,8 @@ PXFHOME=/opt/greenplum-pxf-${PXFVER}
 GPHOME=/usr/cloudberry-db
 
 chown -R ${OWNER}:${OWNER} ${PXFHOME}
-chown    ${OWNER}:${OWNER} ${GPHOME}/lib/postgresql/pxf.so
+# FIXME: build pxf extension for cloudberry
+#chown    ${OWNER}:${OWNER} ${GPHOME}/lib/postgresql/pxf.so
 chown    ${OWNER}:${OWNER} ${GPHOME}/share/postgresql/extension/pxf*
 
 echo -en '\ntrusted = true' >> ${GPHOME}/share/postgresql/extension/pxf.control
