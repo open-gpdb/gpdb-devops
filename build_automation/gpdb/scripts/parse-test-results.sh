@@ -92,8 +92,9 @@ perl_exit_code=$?
 
 # Check if it is a TAP test
 if [ $perl_exit_code -eq 3 ]; then
-    # Extract the result
+    # Extract and print the result
     result=$(grep -E "^Result: (PASS|FAIL)" "$LOG_FILE" | tail -1 | awk '{print $2}')
+    echo "STATUS=$result"
 
     # Set appropriate exit code based on result
     if [ "$result" = "PASS" ]; then
