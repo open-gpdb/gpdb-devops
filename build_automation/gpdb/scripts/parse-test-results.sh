@@ -90,6 +90,19 @@ fi
 perl "${SCRIPT_DIR}/parse-results.pl" "$LOG_FILE"
 perl_exit_code=$?
 
+# Check if it is a TAP test
+if [ $perl_exit_code -eq 3 ]; then
+    # Extract the result
+    result=$(grep -E "^Result: (PASS|FAIL)" "$LOG_FILE" | tail -1 | awk '{print $2}')
+
+    # Set appropriate exit code based on result
+    if [ "$result" = "PASS" ]; then
+        exit 0
+    else
+        exit 1
+    fi
+fi
+
 # Check if results file exists and source it if it does
 if [ ! -f test_results.txt ]; then
     echo "Error: No results file generated"

@@ -63,6 +63,7 @@
 #   0 - All tests passed, or only ignored failures occurred
 #   1 - Some non-ignored tests failed
 #   2 - Parse error or cannot access files
+#   3 - TAP test detected
 #
 # Example Usage:
 #   ./parse_results.pl test_output.log
@@ -81,7 +82,8 @@ use warnings;
 use constant {
     SUCCESS => 0,
     TEST_FAILURE => 1,
-    PARSE_ERROR => 2
+    PARSE_ERROR => 2,
+    TAP_TEST => 3
 };
 
 # Get log file path from command line argument
@@ -110,6 +112,12 @@ my @failed_test_list = ();
 my @ignored_test_list = ();
 
 while (<$fh>) {
+    # Early exit for TAP test (check for "Result: FAIL" or "Result: PASS")
+    if (/Result:\s+(FAIL|PASS)/) {
+        close $fh;
+        exit TAP_TEST;
+    }
+
     # Match the summary lines
     if (/All (\d+) tests passed\./) {
         $status = 'passed';
