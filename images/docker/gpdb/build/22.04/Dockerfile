@@ -88,7 +88,7 @@ RUN sed -i "s/archive.ubuntu.com/mirror.yandex.ru/g" /etc/apt/sources.list && \
   unzip \
   wget \
   zlib1g-dev \
-  protobuf-compiler
+  libprotobuf-dev
 
 RUN pip2 install psutil pyyaml
 
