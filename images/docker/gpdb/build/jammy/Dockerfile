@@ -94,7 +94,8 @@ RUN apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install
   openssh-server \
   locales \
   postgresql-client \
-  libprotobuf-dev
+  libprotobuf-dev \
+  protobuf-compiler
 
 RUN pip2 install psutil pyyaml
 
