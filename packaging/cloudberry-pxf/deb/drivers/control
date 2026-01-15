@@ -1,0 +1,9 @@
+Source: cloudberry-pxf-drivers
+Section: database
+Maintainer: <opengpdb@yandex-team.ru>
+Build-Depends: debhelper (>=9.0.0)
+
+Package: cloudberry-pxf-drivers
+Architecture: any
+Depends: openjdk-11-jre-headless
+Description: Drivers for Cloudberry PXF
