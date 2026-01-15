@@ -1,4 +1,4 @@
-Source: greenplum-pxf-cb
+Source: cloudberry-pxf
 Section: database
 Maintainer: <opengpdb@yandex-team.ru>
 Build-Depends: debhelper (>=9),
@@ -12,7 +12,7 @@ Build-Depends: debhelper (>=9),
     unzip,
     wget
 
-Package: greenplum-pxf-cb
+Package: cloudberry-pxf
 Architecture: amd64
 Depends: ca-certificates-java,
   openjdk-11-jre-headless,
@@ -20,9 +20,9 @@ Depends: ca-certificates-java,
   curl,
   libcurl3-gnutls,
   libcurl4
-Description: Greenplum PXF 6 OSS for Cloudberry
-  The Greenplum Platform Extension Framework (PXF) provides parallel, high
+Description: Cloudberry PXF 6 OSS
+  The Cloudberry Platform Extension Framework (PXF) provides parallel, high
   throughput data access and federated queries across heterogeneous data
-  sources via built-in connectors that map a Greenplum Database external
-  table definition to an external data source. This Greenplum Database
+  sources via built-in connectors that map a Cloudberry Database external
+  table definition to an external data source. This Cloudberry Database
   extension is based on PXF from Apache HAWQ (incubating).
