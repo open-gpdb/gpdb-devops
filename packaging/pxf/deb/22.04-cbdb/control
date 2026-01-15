@@ -15,9 +15,8 @@ Build-Depends: debhelper (>=9),
 Package: greenplum-pxf-cb
 Architecture: amd64
 Depends: ca-certificates-java,
-  openjdk-11-jdk-headless,
   openjdk-11-jre-headless,
-  greenplum-db-cb,
+  apache-cloudberry-db-incubating,
   curl,
   libcurl3-gnutls,
   libcurl4

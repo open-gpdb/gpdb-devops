@@ -47,8 +47,7 @@ Build-Depends: debhelper (>=9),
 Package: greenplum-pxf-6
 Architecture: amd64
 Depends: ca-certificates-java,
-  openjdk-11-jdk,
-  openjdk-11-jre,
+  openjdk-11-jre-headless,
   greenplum-db-6,
   curl,
   libcurl3-gnutls,
