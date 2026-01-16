@@ -4,7 +4,7 @@ set -e
 
 OWNER=root
 PXFVER=1
-PXFHOME=/opt/greenplum-pxf-${PXFVER}
+PXFHOME=/usr/cloudberry-pxf
 GPHOME=/usr/cloudberry-db
 
 chown -R ${OWNER}:${OWNER} ${PXFHOME}
