@@ -4,13 +4,13 @@ Maintainer: <opengpdb@yandex-team.ru>
 Build-Depends: debhelper (>=9),
     ca-certificates-java,
     ca-certificates,
-    curl,
-    git,
+    gcc-11,
+    g++-11,
+    g++-11-multilib,
+    libcurl4-gnutls-dev,
     make,
     openjdk-11-jdk-headless,
-    openjdk-11-jre-headless,
-    unzip,
-    wget
+    openjdk-11-jre-headless
 
 Package: cloudberry-pxf
 Architecture: amd64
