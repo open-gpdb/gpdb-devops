@@ -8,6 +8,7 @@ Build-Depends: debhelper (>=9),
     g++-11,
     g++-11-multilib,
     libcurl4-gnutls-dev,
+    libssl-dev,
     make,
     openjdk-11-jdk-headless,
     openjdk-11-jre-headless
