@@ -9,6 +9,8 @@ GPHOME=/usr/cloudberry-db
 
 chown -R ${OWNER}:${OWNER} ${PXFHOME}
 chown    ${OWNER}:${OWNER} ${GPHOME}/lib/postgresql/pxf.so
+chown    ${OWNER}:${OWNER} ${GPHOME}/lib/postgresql/pxf_fdw.so
 chown    ${OWNER}:${OWNER} ${GPHOME}/share/postgresql/extension/pxf*
 
 echo -en '\ntrusted = true' >> ${GPHOME}/share/postgresql/extension/pxf.control
+echo -en '\ntrusted = true' >> ${GPHOME}/share/postgresql/extension/pxf_fdw.control
