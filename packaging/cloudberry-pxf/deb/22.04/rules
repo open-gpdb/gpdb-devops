@@ -25,9 +25,11 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	make
+	make -C fdw
 
 override_dh_auto_install:
 	make install
+	make -C fdw install
 
 override_dh_auto_test:
 	echo "Skipping auto test"
