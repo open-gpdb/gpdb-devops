@@ -1,4 +1,3 @@
 debian/build/gp/pxf/*                           /usr/cloudberry-pxf
 debian/build/gp/lib/postgresql/pxf.so           /usr/cloudberry-db/lib/postgresql
-debian/build/gp/lib/postgresql/pxf_fdw.so       /usr/cloudberry-db/lib/postgresql
 debian/build/gp/share/postgresql/extension/pxf* /usr/cloudberry-db/share/postgresql/extension
