@@ -1,8 +1,12 @@
 #!/usr/bin/make -f
 DH_VERBOSE = 1
+PXF_HOME ?= debian/build/
 
 %:
 	dh $@
+
+override_dh_auto_install:
+	make install-jdbc-drivers
 
 override_dh_strip_nondeterminism:
 	echo "Skipping dh_strip_nondeterminism"
