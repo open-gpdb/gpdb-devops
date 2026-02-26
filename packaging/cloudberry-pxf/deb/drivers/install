@@ -1,1 +1,1 @@
-*.jar /usr/cloudberry-pxf/lib
+debian/build/lib/*.jar /usr/cloudberry-pxf/lib
