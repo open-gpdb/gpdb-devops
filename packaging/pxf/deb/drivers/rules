@@ -14,7 +14,7 @@ override_dh_auto_build:
 override_dh_auto_install:
 	make -C server stage-jdbc-drivers
 	mkdir -p "$(PXF_HOME)"/lib
-	cp -R build/stage/lib/* "$(PXF_HOME)"/lib
+	cp -R server/build/stage/lib/* "$(PXF_HOME)"/lib
 
 override_dh_auto_test:
 	echo "Skipping auto test"
