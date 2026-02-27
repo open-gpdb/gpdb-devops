@@ -6,7 +6,7 @@ PXF_HOME ?= debian/build/
 	dh $@
 
 override_dh_auto_install:
-	make install-jdbc-drivers
+	make -С server install-jdbc-drivers
 
 override_dh_strip_nondeterminism:
 	echo "Skipping dh_strip_nondeterminism"
