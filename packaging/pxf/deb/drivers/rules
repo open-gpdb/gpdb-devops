@@ -9,10 +9,10 @@ override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
 override_dh_auto_build:
-	make -С server stage-jdbc-drivers
+	make -C server stage-jdbc-drivers
 
 override_dh_auto_install:
-	make -С server install-jdbc-drivers
+	make -C server install-jdbc-drivers
 
 override_dh_auto_test:
 	echo "Skipping auto test"
