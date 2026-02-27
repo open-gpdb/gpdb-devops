@@ -5,8 +5,20 @@ PXF_HOME ?= debian/build/
 %:
 	dh $@
 
+override_dh_auto_configure:
+	echo "Skipping autoconfigure"
+
+override_dh_auto_build:
+	make -С server stage-jdbc-drivers
+
 override_dh_auto_install:
-	make -C server install-jdbc-drivers
+	make -С server install-jdbc-drivers
+
+override_dh_auto_test:
+	echo "Skipping auto test"
+
+override_dh_auto_clean:
+	echo "Skipping auto clean"
 
 override_dh_strip_nondeterminism:
 	echo "Skipping dh_strip_nondeterminism"
