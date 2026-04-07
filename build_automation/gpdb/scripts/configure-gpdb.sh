@@ -144,6 +144,7 @@ execute_cmd ./configure --with-perl --with-python --with-libxml --enable-mapredu
         --prefix=${BUILD_DESTINATION} \
         ${CONFIGURE_DEBUG_OPTS} \
 	${CONFIGURE_PROFILING_OPTS} \
+        --with-gp-stats-collector \
         --with-ldap \
         --enable-gpperfmon \
         --with-pam \
