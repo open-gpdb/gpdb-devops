@@ -1,1 +1,1 @@
-debian/build/lib/*.jar /opt/greenplum-pxf-%pxf-version%/lib
+debian/build/lib/*.jar /opt/greenplum-pxf-6/lib
