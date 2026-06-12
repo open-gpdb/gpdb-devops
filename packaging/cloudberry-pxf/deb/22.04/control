@@ -15,7 +15,7 @@ Build-Depends: debhelper (>=9),
 Package: cloudberry-pxf
 Architecture: amd64
 Depends: ca-certificates-java,
-  java-runtime-headless,
+  java8-runtime-headless,
   apache-cloudberry-db-incubating,
   curl,
   libcurl3-gnutls,
