@@ -10,18 +10,17 @@ Build-Depends: debhelper (>=9),
     libcurl4-gnutls-dev,
     libssl-dev,
     make,
-    openjdk-11-jdk-headless,
-    openjdk-11-jre-headless
+    openjdk-11-jdk-headless
 
 Package: cloudberry-pxf
 Architecture: amd64
 Depends: ca-certificates-java,
-  openjdk-11-jre-headless,
+  java8-runtime-headless,
   apache-cloudberry-db-incubating,
   curl,
   libcurl3-gnutls,
   libcurl4
-Description: Cloudberry PXF 6 OSS
+Description: Cloudberry PXF
   The Cloudberry Platform Extension Framework (PXF) provides parallel, high
   throughput data access and federated queries across heterogeneous data
   sources via built-in connectors that map a Cloudberry Database external
